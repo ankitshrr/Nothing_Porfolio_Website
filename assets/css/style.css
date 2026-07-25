@@ -96,17 +96,7 @@ html[data-theme="dark"] .pacman-graph-img.theme-adaptive {
   filter: invert(1) hue-rotate(180deg) !important;
 }
 
-/* BACKGROUND DOT */
-.nt-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background-image: var(--dot-bg);
-  background-size: 32px 32px;
-  opacity: 0.5;
-  mask-image: radial-gradient(circle at center, black, transparent 80%);
-  pointer-events: none;
-}
+
 
 /* SCROLL PROGRESS BAR */
 #scrollProgress {
