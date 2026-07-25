@@ -650,30 +650,6 @@ requestAnimationFrame(renderSmoothScroll);
 // PAC-MAN CONTRIBUTION GRAPH
 // ==========================================
 
-function generateMockContributions() {
-  const contributions = [];
-  const today = new Date();
-  // Seed so it looks natural: heavier mid-week, lighter weekends
-  for (let i = 364; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().slice(0, 10);
-    const dow = d.getDay(); // 0=Sun, 6=Sat
-    const isWeekend = dow === 0 || dow === 6;
-    const base = isWeekend ? 0.28 : 0.68;
-    const rand = Math.random();
-    let count = 0, level = 0;
-    if (rand < base) {
-      count = Math.floor(Math.random() * 14) + 1;
-      level = count <= 2 ? 1 : count <= 6 ? 2 : count <= 10 ? 3 : 4;
-    }
-    contributions.push({ date: dateStr, count, level });
-  }
-  return contributions;
-}
-
-
-
 async function initPacManGraph() {
   const GH_USER = 'ankitshrr';
   let contributions = [];
@@ -683,7 +659,7 @@ async function initPacManGraph() {
     if (res.ok) { const data = await res.json(); contributions = data.contributions || []; }
   } catch (_) {}
 
-  if (!contributions.length) contributions = generateMockContributions();
+  if (!contributions.length) return; // Leave UI with default "—" placeholders
 
   // ── Streak counter ──────────────────────────────────────────────
   function prevDay(ds) { const d=new Date(ds); d.setDate(d.getDate()-1); return d.toISOString().slice(0,10); }
