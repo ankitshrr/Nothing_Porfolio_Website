@@ -189,10 +189,6 @@ copyBtn.addEventListener("click", () => {
 // GITHUB TRACKER
 // =========================
 const GH_USERNAME = "ankitshrr";
-const ghUserEl = document.getElementById("ghUser");
-const ghRepoCountEl = document.getElementById("ghRepoCount");
-const ghFollowersEl = document.getElementById("ghFollowers");
-const ghStatusEl = document.getElementById("ghStatus");
 const ghReposEl = document.getElementById("ghRepos");
 
 const GH_CACHE_KEY = `gh_repos_cache_${GH_USERNAME}_v1`;
@@ -483,22 +479,9 @@ async function fetchGitHubLive() {
 
 
 function applyWorkFilters(repos) {
-  const q = (document.getElementById("repoSearch")?.value || "").trim().toLowerCase();
-  const sort = document.getElementById("repoSort")?.value || "updated";
-
   let list = (Array.isArray(repos) ? repos : []).filter((r) => !r.fork && r.language);
 
-  if (q) {
-    list = list.filter((r) => {
-      const name = (r.name || "").toLowerCase();
-      const desc = (r.description || "").toLowerCase();
-      return name.includes(q) || desc.includes(q);
-    });
-  }
-
-  if (sort === "stars") list.sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0));
-  if (sort === "name") list.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
-  if (sort === "updated") list.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+  list.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
 
   // pinned first
   list.sort((a, b) => (isPinned(b.name) ? 1 : 0) - (isPinned(a.name) ? 1 : 0));
@@ -507,24 +490,14 @@ function applyWorkFilters(repos) {
 }
 
 function renderGitHub(user, repos) {
-  ghUserEl.textContent = `@${GH_USERNAME}`;
-  ghRepoCountEl.textContent = user?.public_repos ?? "--";
-  ghFollowersEl.textContent = user?.followers ?? "--";
-  ghStatusEl.textContent = "Active";
-
   const visible = applyWorkFilters(repos);
 
   if (!visible.length) {
-    const q = (document.getElementById("repoSearch")?.value || "").trim();
-    const title = q ? "No projects found" : "No repos found";
-    const desc = q
-      ? "No project matches your search. Try a different keyword."
-      : "Public projects will appear here automatically when repos are available.";
     ghReposEl.innerHTML = `
       <div class="work-card-inner" style="cursor:default">
         <span class="label">EMPTY</span>
-        <h3>${title}</h3>
-        <p class="card-desc">${desc}</p>
+        <h3>No repos found</h3>
+        <p class="card-desc">Public projects will appear here automatically when repos are available.</p>
       </div>
     `;
     return;
@@ -547,15 +520,10 @@ function renderGitHub(user, repos) {
 }
 
 async function loadGitHub() {
-  ghUserEl.textContent = `@${GH_USERNAME}`;
-
   // 1) Try cache first
   const cache = loadRepoCache();
   if (cache.user && Array.isArray(cache.repos) && cache.repos.length) {
-    ghStatusEl.textContent = cache.fresh ? "Cached" : "Stale";
     renderGitHub(cache.user, cache.repos);
-  } else {
-    ghStatusEl.textContent = "Loading...";
   }
 
   // 2) Refresh live
@@ -566,13 +534,10 @@ async function loadGitHub() {
   } catch (err) {
     const msg = (err && err.message) || "ERROR";
     const rateLimited = msg === "RATE_LIMIT";
-    ghStatusEl.textContent = rateLimited ? "Rate Limited" : "Error";
 
     const cache2 = loadRepoCache();
     const hasCache = cache2.user && Array.isArray(cache2.repos) && cache2.repos.length;
     if (!hasCache) {
-      ghRepoCountEl.textContent = "--";
-      ghFollowersEl.textContent = "--";
       ghReposEl.innerHTML = `
         <div class="work-card-inner" style="cursor:default">
           <span class="label">STATUS</span>
@@ -622,54 +587,33 @@ document.querySelectorAll('.widget').forEach(widget => {
 
 document.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add('loading');
-  
-  let loadPercent = 0;
-  const loaderPercentEl = document.getElementById('loaderPercent');
-  const preloader = document.getElementById('preloader');
-
-  // Simulated loading percentage count
-  const loadInterval = setInterval(() => {
-    loadPercent += Math.floor(Math.random() * 15) + 5;
-    if (loadPercent >= 100) {
-      loadPercent = 100;
-      clearInterval(loadInterval);
-      
-      if(loaderPercentEl) loaderPercentEl.textContent = loadPercent;
-      
-      setTimeout(() => {
-        if(preloader) preloader.classList.add('hidden');
-        document.body.classList.remove('loading');
-        document.body.classList.add('page-loaded');
-        
-        runGlyphSequence();
-        startHeroAutoplay();
-        
-        setActiveByScroll();
-        setTimeout(triggerNavGlyphs, 500);
-      }, 600); // Hold at 100% for a moment before fading
-    } else {
-      if(loaderPercentEl) loaderPercentEl.textContent = loadPercent;
-    }
-  }, 80);
-
   loadGitHub();
   setInterval(loadGitHub, 10 * 60 * 1000);
 });
 
-
-
-
-// Work controls: search + sort (uses cached repos if available)
-document.addEventListener("DOMContentLoaded", () => {
-  ["repoSearch", "repoSort"].forEach((id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener("input", () => {
-      const cache = loadRepoCache();
-      if (cache.user && Array.isArray(cache.repos)) renderGitHub(cache.user, cache.repos);
-    });
-  });
+window.addEventListener("load", () => {
+  const loaderPercentEl = document.getElementById('loaderPercent');
+  const preloader = document.getElementById('preloader');
+  
+  if (loaderPercentEl) loaderPercentEl.textContent = "100";
+  
+  setTimeout(() => {
+    if (preloader) preloader.classList.add('hidden');
+    document.body.classList.remove('loading');
+    document.body.classList.add('page-loaded');
+    
+    runGlyphSequence();
+    startHeroAutoplay();
+    
+    setActiveByScroll();
+    setTimeout(triggerNavGlyphs, 500);
+  }, 150); // Brief hold before fading out for smoother transition
 });
+
+
+
+
+// Work controls removed
 
 // ==========================================
 // BONUS TECHNIQUES: LERP, MAP RANGE, TEXT SPLITTING
