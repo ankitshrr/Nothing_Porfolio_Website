@@ -592,10 +592,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 window.addEventListener("load", () => {
-  const loaderPercentEl = document.getElementById('loaderPercent');
   const preloader = document.getElementById('preloader');
-  
-  if (loaderPercentEl) loaderPercentEl.textContent = "100";
   
   setTimeout(() => {
     if (preloader) preloader.classList.add('hidden');
