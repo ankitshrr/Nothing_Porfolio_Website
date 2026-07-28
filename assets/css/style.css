@@ -23,6 +23,14 @@
   --dot-bg: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
 }
 
+/* Global Theme Transition */
+.theme-transitioning,
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+  transition: all 0.4s var(--ease) !important;
+}
+
 [data-theme="light"] {
   --bg: #ffffff;
   --surface-low: rgba(0, 0, 0, 0.03);

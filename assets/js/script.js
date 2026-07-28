@@ -26,9 +26,15 @@ window.triggerNavGlyphs = triggerNavGlyphs;
 
 // Theme toggle
 themeBtn.addEventListener("click", () => {
+  html.classList.add('theme-transitioning');
+  
   const currentTheme = html.getAttribute("data-theme");
   const newTheme = currentTheme === "dark" ? "light" : "dark";
   html.setAttribute("data-theme", newTheme);
+  
+  setTimeout(() => {
+    html.classList.remove('theme-transitioning');
+  }, 400);
 
   themeBtn.innerHTML =
     newTheme === "dark"
