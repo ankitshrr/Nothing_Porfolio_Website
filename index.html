@@ -17,6 +17,12 @@
     rel="stylesheet" />
 
   <link rel="stylesheet" href="assets/css/style.css" />
+  
+  <!-- Prevent theme flash on load -->
+  <script>
+    const savedTheme = localStorage.getItem('nothing-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
 </head>
 
 <body>

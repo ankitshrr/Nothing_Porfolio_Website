@@ -2,6 +2,11 @@
 const themeBtn = document.getElementById("themeBtn");
 const html = document.documentElement;
 
+// Set initial button icon based on saved theme
+if (html.getAttribute("data-theme") === "light") {
+  themeBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+}
+
 // Footer stamps
 document.getElementById("yearNow").textContent = new Date().getFullYear();
 document.getElementById("buildStamp").textContent = new Date().toISOString().slice(0, 10);
@@ -31,6 +36,7 @@ themeBtn.addEventListener("click", () => {
   const currentTheme = html.getAttribute("data-theme");
   const newTheme = currentTheme === "dark" ? "light" : "dark";
   html.setAttribute("data-theme", newTheme);
+  localStorage.setItem('nothing-theme', newTheme);
   
   setTimeout(() => {
     html.classList.remove('theme-transitioning');
