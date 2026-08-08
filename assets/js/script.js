@@ -8,8 +8,11 @@ if (html.getAttribute("data-theme") === "light") {
 }
 
 // Footer stamps
-document.getElementById("yearNow").textContent = new Date().getFullYear();
-document.getElementById("buildStamp").textContent = new Date().toISOString().slice(0, 10);
+const yearNow = document.getElementById("yearNow");
+if (yearNow) yearNow.textContent = new Date().getFullYear();
+
+const buildStamp = document.getElementById("buildStamp");
+if (buildStamp) buildStamp.textContent = new Date().toISOString().slice(0, 10);
 
 // Nav expand
 const brandBtn = document.getElementById("brandBtn");
@@ -75,15 +78,48 @@ document.addEventListener('DOMContentLoaded', () => {
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       
       if (isMobile) {
-        // Open native email app
         window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
       } else {
-        // Open Gmail on the web
-        window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`, '_blank');
+        window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`, '_blank', 'noopener,noreferrer');
       }
     });
   }
 });
+
+function handleContactForm(event) {
+  event.preventDefault();
+
+  const name = document.getElementById('cf-name')?.value?.trim() || '';
+  const email = document.getElementById('cf-email')?.value?.trim() || '';
+  const subject = document.getElementById('cf-subject')?.value?.trim() || 'Hello Ankit';
+  const message = document.getElementById('cf-message')?.value?.trim() || '';
+  const toast = document.getElementById('cfToast');
+  const form = document.getElementById('contactForm');
+
+  const mailto = `mailto:ankitprogressx@gmail.com?subject=${encodeURIComponent(`Portfolio inquiry: ${subject}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  if (toast) {
+    toast.textContent = 'Opening your email app...';
+    toast.style.opacity = '1';
+  }
+
+  if (isMobile) {
+    window.location.href = mailto;
+  } else {
+    window.open(mailto, '_blank', 'noopener,noreferrer');
+  }
+
+  if (form) form.reset();
+
+  setTimeout(() => {
+    if (toast) {
+      toast.textContent = 'Thanks for reaching out.';
+      toast.style.opacity = '0';
+    }
+  }, 1800);
+}
+window.handleContactForm = handleContactForm;
 
 // Hero glyph
 function runGlyphSequence() {
@@ -177,25 +213,38 @@ window.addEventListener("scroll", setActiveByScroll, { passive: true });
 // Copy email
 const copyBtn = document.getElementById("copyEmailBtn");
 const copyToast = document.getElementById("copyToast");
-copyBtn.addEventListener("click", () => {
-  const email = "ankitprogressx@gmail.com";
-  const t = document.createElement("textarea");
-  t.value = email;
-  t.style.position = "fixed";
-  t.style.left = "-9999px";
-  document.body.appendChild(t);
-  t.focus();
-  t.select();
-  document.execCommand("copy");
-  document.body.removeChild(t);
+if (copyBtn && copyToast) {
+  copyBtn.addEventListener("click", async () => {
+    const email = "ankitprogressx@gmail.com";
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(email);
+      } else {
+        const t = document.createElement("textarea");
+        t.value = email;
+        t.style.position = "fixed";
+        t.style.left = "-9999px";
+        document.body.appendChild(t);
+        t.focus();
+        t.select();
+        document.execCommand("copy");
+        document.body.removeChild(t);
+      }
 
-  copyToast.style.opacity = "1";
-  copyToast.style.transform = "translateY(0)";
-  setTimeout(() => {
-    copyToast.style.opacity = "0";
-    copyToast.style.transform = "translateY(4px)";
-  }, 900);
-});
+      copyToast.textContent = "Email copied";
+      copyToast.classList.add("show");
+      setTimeout(() => {
+        copyToast.classList.remove("show");
+      }, 1400);
+    } catch {
+      copyToast.textContent = "Copy failed — please email manually";
+      copyToast.classList.add("show");
+      setTimeout(() => {
+        copyToast.classList.remove("show");
+      }, 1400);
+    }
+  });
+}
 
 // =========================
 // GITHUB TRACKER
@@ -757,6 +806,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-
-
-
+// Live KTM Time for Footer
+function updateKtmTime() {
+  const timeEl = document.getElementById("ktmTime");
+  if (!timeEl) return;
+  const now = new Date();
+  const timeOpts = { timeZone: 'Asia/Kathmandu', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+  const dateOpts = { timeZone: 'Asia/Kathmandu', weekday: 'short', month: 'short', day: 'numeric' };
+  const timeStr = new Intl.DateTimeFormat('en-US', timeOpts).format(now);
+  const dateStr = new Intl.DateTimeFormat('en-US', dateOpts).format(now);
+  timeEl.textContent = `Kathmandu, Nepal — ${dateStr} · ${timeStr}`;
+}
+setInterval(updateKtmTime, 1000);
+updateKtmTime();
