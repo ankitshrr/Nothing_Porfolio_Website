@@ -93,6 +93,106 @@ document.addEventListener('DOMContentLoaded', () => {
       this.style.height = this.scrollHeight + 'px';
     });
   }
+  // Radar Skills — Click-to-Lock + Hover Preview
+  const nodes = document.querySelectorAll('.radar-node');
+  const radarData = document.getElementById('radarData');
+  const rpStatus = document.getElementById('rpStatus');
+  let lockedNode = null;
+
+  function showNodeData(node) {
+    const skill = node.getAttribute('data-skill');
+    const level = node.getAttribute('data-level');
+    const subsystem = node.getAttribute('data-subsystem');
+    const desc = node.getAttribute('data-desc');
+    const iconEl = node.querySelector('img, svg');
+    const iconSrc = iconEl ? iconEl.outerHTML : '';
+
+    rpStatus.classList.remove('blinking');
+    rpStatus.innerHTML = `NODE LOCKED: ${skill}`;
+    rpStatus.style.color = 'var(--text-main)';
+
+    radarData.innerHTML = `
+      <div class="rp-data-view active">
+        <h3 class="rp-large-title">${iconSrc} ${skill}</h3>
+        <div class="rp-stats-grid">
+          <div class="rp-stat-box">
+            <span class="rp-stat-label">SYS.LVL</span>
+            <span class="rp-stat-val">${level}</span>
+          </div>
+          <div class="rp-stat-box">
+            <span class="rp-stat-label">SUBSYSTEM</span>
+            <span class="rp-stat-val">${subsystem}</span>
+          </div>
+        </div>
+        <p class="rp-desc">${desc}</p>
+      </div>
+    `;
+  }
+
+  if (nodes.length > 0 && radarData && rpStatus) {
+    // Click to lock/unlock
+    nodes.forEach(node => {
+      node.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (lockedNode === node) {
+          // Unlock
+          lockedNode = null;
+          node.classList.remove('active');
+          rpStatus.classList.add('blinking');
+          rpStatus.innerHTML = 'AWAITING NODE';
+          rpStatus.style.color = '';
+          radarData.innerHTML = `
+            <div class="rp-placeholder">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              <p style="margin-top: 16px; opacity: 0.6;">TAP A NODE ON THE RADAR TO EXTRACT DATA.</p>
+            </div>
+          `;
+        } else {
+          // Lock to this node
+          lockedNode = node;
+          nodes.forEach(n => n.classList.remove('active'));
+          node.classList.add('active');
+          showNodeData(node);
+        }
+      });
+
+      // Hover preview (desktop only, doesn't override lock)
+      node.addEventListener('mouseenter', () => {
+        if (!lockedNode) {
+          nodes.forEach(n => n.classList.remove('active'));
+          node.classList.add('active');
+          showNodeData(node);
+        }
+      });
+    });
+
+    // When mouse leaves the entire grid, revert to locked node or reset
+    const radarGrid = document.getElementById('radarGrid');
+    if (radarGrid) {
+      radarGrid.addEventListener('mouseleave', () => {
+        if (lockedNode) {
+          nodes.forEach(n => n.classList.remove('active'));
+          lockedNode.classList.add('active');
+          showNodeData(lockedNode);
+        } else {
+          nodes.forEach(n => n.classList.remove('active'));
+          rpStatus.classList.add('blinking');
+          rpStatus.innerHTML = 'AWAITING NODE';
+          rpStatus.style.color = '';
+          radarData.innerHTML = `
+            <div class="rp-placeholder">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              <p style="margin-top: 16px; opacity: 0.6;">HOVER OVER A NODE ON THE RADAR TO EXTRACT DATA.</p>
+            </div>
+          `;
+        }
+      });
+    }
+  }
 });
 
 function handleContactForm(event) {

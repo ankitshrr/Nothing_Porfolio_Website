@@ -905,218 +905,226 @@ section.widget {
   grid-column: span 12;
 }
 
-/* BENTO SKILLS */
-.bento-skills {
+/* RADAR SKILLS */
+.radar-skills-container {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 16px;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+  width: 100%;
 }
 
-.bento-box {
+.radar-grid {
   background: var(--surface-low);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   border-radius: 24px;
-  padding: 32px 24px;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.4s ease;
-  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.05);
-  position: relative;
-  overflow: hidden;
-}
-
-.bento-box:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.2);
-  background: var(--surface-mid);
-  box-shadow: 0 25px 45px -10px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 0.05);
-}
-
-.bento-wide {
-  grid-column: span 12;
-}
-
-.bento-square {
-  grid-column: span 6;
-}
-
-.bento-header {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 24px;
-  letter-spacing: 0.1em;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.bento-header svg {
-  color: var(--nothing-red);
-}
-
-/* Marquee Box */
-.bento-marquee-box {
-  justify-content: center;
-  padding: 48px 0;
-}
-
-.bento-marquee-box .bento-header {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  margin-bottom: 0;
-}
-
-.marquee-container {
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  position: relative;
-  display: flex;
-  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-}
-
-.marquee-content {
-  display: flex;
-  animation: marquee-scroll 20s linear infinite;
-}
-
-.marquee-content span {
-  font-size: clamp(48px, 8vw, 80px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  color: var(--text-main);
-  padding: 0 20px;
-  line-height: 1;
-}
-
-.marquee-content span.dim {
-  color: var(--text-dim);
-  font-family: "JetBrains Mono", monospace;
-  font-weight: 400;
-  font-size: 0.8em;
-}
-
-@keyframes marquee-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* Icons Grid Box */
-.bento-icons-grid {
+  padding: 40px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  flex: 1;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  position: relative;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.2);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+  background-position: center center;
 }
 
-.bento-icon-item {
+.radar-node {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 24px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 4px 20px -5px rgba(0,0,0,0.3);
+}
+
+.radar-node:hover, .radar-node.active {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.1);
+}
+
+.radar-node img, .radar-node svg {
+  width: 36px;
+  height: 36px;
+  filter: grayscale(100%) opacity(0.7);
   transition: all 0.3s ease;
 }
 
-.bento-icon-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.15);
+.radar-node:hover img, .radar-node.active img,
+.radar-node:hover svg, .radar-node.active svg {
+  filter: grayscale(0%) opacity(1);
 }
 
-.bento-icon-item img, .bento-icon-item svg {
-  width: 32px;
-  height: 32px;
-  filter: grayscale(100%) brightness(1.5);
-  transition: all 0.3s ease;
-}
-
-.bento-icon-item:hover img, .bento-icon-item:hover svg {
-  filter: grayscale(0%) brightness(1);
-}
-
-.bento-icon-item span {
+.radar-node span {
   font-family: "JetBrains Mono", monospace;
   font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   color: var(--text-dim);
+  transition: color 0.3s ease;
 }
 
-/* Tools Box */
-.bento-tools {
-  display: flex;
-  flex-direction: column;
-}
-.bento-tools-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  flex: 1;
-  justify-content: center;
-}
-
-.bento-tool-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  transition: all 0.3s ease;
-}
-
-.bento-tool-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--nothing-red);
-}
-
-.bento-tool-item-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.bento-tool-item-left svg {
-  width: 20px;
-  height: 20px;
+.radar-node:hover span, .radar-node.active span {
   color: var(--text-main);
 }
 
-.bento-tool-name {
-  font-size: 15px;
-  font-weight: 600;
+.radar-panel {
+  background: var(--surface-low);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.bento-tool-status {
+.rp-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.2);
+}
+
+.rp-title {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+.rp-status {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: var(--nothing-red);
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 6px;
 }
-.bento-tool-status .dot {
+.rp-status.blinking::before {
+  content: '';
+  display: inline-block;
   width: 6px;
   height: 6px;
-  background: var(--nothing-red);
   border-radius: 50%;
-  animation: strobe 2s infinite;
+  background: var(--nothing-red);
+  animation: strobe 1.5s infinite;
 }
-.bento-tool-status span {
+
+.rp-body {
+  padding: 32px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rp-placeholder {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.rp-placeholder p {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+.rp-data-view {
+  display: none;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeIn 0.4s var(--ease);
+}
+.rp-data-view.active {
+  display: flex;
+}
+
+.rp-large-title {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  margin: 0;
+  line-height: 1.1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.rp-large-title img, .rp-large-title svg {
+  width: 32px;
+  height: 32px;
+}
+
+.rp-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.rp-stat-box {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.rp-stat-label {
   font-family: "JetBrains Mono", monospace;
   font-size: 10px;
   color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.rp-stat-val {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.rp-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 900px) {
-  .bento-square {
-    grid-column: span 12;
+  .radar-skills-container {
+    grid-template-columns: 1fr;
+  }
+  .radar-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 500px) {
+  .radar-grid {
+    grid-template-columns: 1fr;
+    padding: 20px;
   }
 }
 
