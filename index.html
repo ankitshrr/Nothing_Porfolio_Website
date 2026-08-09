@@ -73,53 +73,60 @@
     <div class="grid-interface">
       <!-- HOME -->
       <section class="widget hero-widget" id="home">
-        <div class="glyph-container" id="glyphSystem">
-          <div class="glyph-segment gs-arc"></div>
-          <div class="glyph-segment gs-slant-top"></div>
-          <div class="glyph-segment gs-mid-slant"></div>
-          <div class="glyph-segment gs-bottom-bar"></div>
-          <div class="glyph-segment gs-tail"></div>
-        </div>
+        <div class="hero-grid">
+          <div class="hero-content">
+            <div class="status-tag">
+              <span class="red-dot"></span>
+              <span>Available for work</span>
+            </div>
 
-        <div class="hero-content">
-          <div class="status-tag">
-            <span class="red-dot"></span>
-            <span>Available for work</span>
+            <h1 class="hero-title">
+              <span class="dot-matrix">ANKIT SHRESTHA</span>
+              SOFTWARE<br />DEVELOPER.
+            </h1>
+
+            <p class="hero-desc">
+              I am a developer exploring and improving my skills. I focus on writing clean code, building simple
+              solutions, and continuously learning new technologies.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#work" class="btn-system">See My Work</a>
+              <a href="#contact" class="btn-system btn-ghost">Connect</a>
+            </div>
+
+            <p class="hero-foot">
+              Current Focus: Web Development • Problem Solving • Programming
+            </p>
           </div>
 
-          <h1 class="hero-title">
-            <span class="dot-matrix">ANKIT SHRESTHA</span>
-            SOFTWARE<br />DEVELOPER.
-          </h1>
-
-          <p class="hero-desc">
-            I am a developer exploring and improving my skills. I focus on writing clean code, building simple
-            solutions, and continuously learning new technologies.
-          </p>
-
-          <div class="hero-actions">
-            <a href="#work" class="btn-system">See My Work</a>
-            <a href="#contact" class="btn-system btn-ghost">Connect</a>
+          <div class="about-photo-container hero-photo" aria-label="Profile photo">
+            <!-- GLYPH CORNERS -->
+            <div class="photo-glyph pg-tl">
+              <div class="glyph-segment idle pg-h"></div>
+              <div class="glyph-segment idle pg-v"></div>
+            </div>
+            <div class="photo-glyph pg-br">
+              <div class="glyph-segment idle pg-h"></div>
+              <div class="glyph-segment idle pg-v"></div>
+            </div>
+            <img src="assets/img/ankit.webp" alt="Profile" />
           </div>
-
-          <p class="hero-foot">
-            Current Focus: Web Development • Problem Solving • Programming
-          </p>
         </div>
       </section>
 
       <!-- ABOUT -->
       <section class="widget about-widget" id="about">
         <span class="label">About</span>
-        <div class="about-grid">
-          <div class="about-text-container">
-            <p class="about-desc">
+        <div class="about-grid" style="grid-template-columns: 1fr;">
+          <div class="about-text-container" style="max-width: 900px;">
+            <p class="about-desc" style="font-size: clamp(16px, 2vw, 22px);">
               I’m Ankit Shrestha, a developer building simple and effective applications.
               Right now I’m exploring new development tools and strengthening my programming fundamentals.
               I enjoy writing clean code, solving problems, and continuously improving my skills.
             </p>
 
-            <div class="about-links">
+            <div class="about-links" style="margin-top: 12px;">
               <a class="btn-system btn-ghost btn-mini" href="assets/resume.pdf" target="_blank" rel="noopener" download>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                   stroke-linecap="round" stroke-linejoin="round">
@@ -153,15 +160,9 @@
               </a>
             </div>
 
-            <p class="about-foot">
+            <p class="about-foot" style="margin-top: 12px;">
               Location: Kathmandu, Nepal • Target Role: Junior Developer / Intern
             </p>
-          </div>
-
-          <div class="about-photo-container" aria-label="Profile photo">
-            <div class="corner-mark corner-tl"></div>
-            <div class="corner-mark corner-br"></div>
-            <img src="assets/img/ankit.webp" alt="Profile" />
           </div>
         </div>
       </section>

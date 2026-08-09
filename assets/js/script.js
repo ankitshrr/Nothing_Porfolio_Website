@@ -252,22 +252,22 @@ function runGlyphSequence() {
 function heroGlyphBurst() {
   const segments = document.querySelectorAll(".glyph-segment");
   segments.forEach((seg) => seg.classList.remove("idle", "active"));
-  void document.getElementById("glyphSystem").offsetWidth;
+  const sys = document.getElementById("glyphSystem") || document.querySelector(".hero-photo");
+  if (sys) void sys.offsetWidth;
   runGlyphSequence();
 }
 
 let heroAutoTimer = null;
 function startHeroAutoplay() {
-  if (heroAutoTimer) clearInterval(heroAutoTimer);
-  heroAutoTimer = setInterval(() => {
-    const home = document.getElementById("home");
-    if (!home) return;
-    const rect = home.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.2) heroGlyphBurst();
-  }, 2300);
+  // Autoplay disabled by user request. Glyphs only trigger on hover or click.
 }
 
 brandBtn.addEventListener("click", () => heroGlyphBurst());
+
+const heroPhoto = document.querySelector(".hero-photo");
+if (heroPhoto) {
+  heroPhoto.addEventListener("mouseenter", () => heroGlyphBurst());
+}
 
 navToggle.addEventListener("click", () => {
   mainNav.classList.toggle("expanded");

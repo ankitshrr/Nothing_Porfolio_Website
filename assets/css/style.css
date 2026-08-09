@@ -656,23 +656,25 @@ section.widget {
 .glyph-segment.idle {
   animation: glyph-idle 5s infinite ease-in-out;
 }
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 48px;
+  align-items: center;
+  width: 100%;
+}
+@media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
 .hero-content {
   position: relative;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.05);
   transition: all 0.4s ease;
-}
-.hero-content:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 30px 50px -10px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 0.05);
-  transform: translateY(-2px);
 }
 .status-tag {
   display: inline-flex;
@@ -853,26 +855,30 @@ section.widget {
   border-radius: var(--radius-lg);
 }
 
-.corner-mark {
+/* Photo Glyph Corners */
+.photo-glyph {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  border: 1px solid var(--text-muted);
-  z-index: 2;
-  opacity: 0.5;
+  width: 40px;
+  height: 40px;
+  z-index: 3;
 }
-.corner-tl {
-  top: 20px;
-  left: 20px;
-  border-right: 0;
-  border-bottom: 0;
+.pg-tl { top: 16px; left: 16px; }
+.pg-tr { top: 16px; right: 16px; transform: scaleX(-1); }
+.pg-bl { bottom: 16px; left: 16px; transform: scaleY(-1); }
+.pg-br { bottom: 16px; right: 16px; transform: scale(-1, -1); }
+
+.pg-h {
+  top: 0; left: 0;
+  width: 100%; height: 6px;
 }
-.corner-br {
-  bottom: 20px;
-  right: 20px;
-  border-left: 0;
-  border-top: 0;
+.pg-v {
+  top: 0; left: 0;
+  width: 6px; height: 100%;
 }
+
+
+
+
 
 @media (max-width: 1024px) {
   .about-grid {
