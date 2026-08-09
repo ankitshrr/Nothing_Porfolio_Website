@@ -654,7 +654,7 @@ section.widget {
   }
 }
 .glyph-segment.idle {
-  animation: glyph-idle 5s infinite ease-in-out;
+  opacity: 0.08;
 }
 
 .hero-grid {
@@ -2209,21 +2209,10 @@ body:not(.page-loaded) #mainNav {
   opacity: 0;
 }
 
-body:not(.page-loaded) .hero-widget {
-  opacity: 0;
-  transform: translateY(20px) scale(0.98);
-}
-
 body.page-loaded #mainNav {
   transform: translate(-50%, 0);
   opacity: 1;
   transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s, opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s;
-}
-
-body.page-loaded .hero-widget {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s, transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s;
 }
 
 /* PRELOADER */
