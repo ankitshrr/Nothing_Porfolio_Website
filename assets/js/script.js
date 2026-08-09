@@ -811,11 +811,9 @@ function updateKtmTime() {
   const timeEl = document.getElementById("ktmTime");
   if (!timeEl) return;
   const now = new Date();
-  const timeOpts = { timeZone: 'Asia/Kathmandu', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-  const dateOpts = { timeZone: 'Asia/Kathmandu', weekday: 'short', month: 'short', day: 'numeric' };
-  const timeStr = new Intl.DateTimeFormat('en-US', timeOpts).format(now);
-  const dateStr = new Intl.DateTimeFormat('en-US', dateOpts).format(now);
-  timeEl.textContent = `Kathmandu, Nepal — ${dateStr} · ${timeStr}`;
+  const timeOpts = { timeZone: 'Asia/Kathmandu', hour: '2-digit', minute: '2-digit', hour12: true };
+  const timeStr = new Intl.DateTimeFormat('en-US', timeOpts).format(now).toUpperCase();
+  timeEl.textContent = `${timeStr} • KATHMANDU`;
 }
 setInterval(updateKtmTime, 1000);
 updateKtmTime();
