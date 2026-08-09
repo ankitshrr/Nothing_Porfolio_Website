@@ -1695,20 +1695,22 @@ section.widget {
   grid-column: span 12;
   display: grid;
   grid-template-columns: 0.85fr 1.15fr;
-  gap: 48px;
+  gap: 36px;
   align-items: start;
-  padding: 52px 48px;
+  align-content: center;
+  min-height: calc(100vh - 116px);
+  padding: 42px 48px;
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-xl);
-  background: linear-gradient(135deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+  background: linear-gradient(135deg, var(--surface-mid), var(--surface-low));
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.05);
 }
 
 /* LEFT */
 .contact-left {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding-top: 4px;
+  gap: 16px;
 }
 .contact-title {
   font-size: clamp(32px, 4.4vw, 52px);
@@ -1825,10 +1827,10 @@ section.widget {
 .contact-form-wrap {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 .cf-form-header {
-  padding-bottom: 16px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--glass-border);
 }
 
@@ -1836,7 +1838,7 @@ section.widget {
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
 }
 .cf-row {
   display: grid;
@@ -1858,34 +1860,40 @@ section.widget {
 .cf-input {
   background: var(--surface-low);
   border: 1px solid var(--glass-border);
-  border-radius: 10px;
+  border-radius: 12px;
   color: var(--text-main);
   font-family: "Inter", sans-serif;
   font-size: 14px;
   padding: 13px 16px;
   outline: none;
-  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), background 0.2s var(--ease);
+  transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease);
   width: 100%;
   box-sizing: border-box;
 }
 .cf-input::placeholder {
   color: var(--text-muted);
-  opacity: 0.7;
+  opacity: 0.6;
+}
+.cf-input:hover {
+  border-color: var(--text-muted);
+  background: var(--surface-mid);
 }
 .cf-input:focus {
-  border-color: var(--nothing-red);
-  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.12);
+  border-color: var(--text-main);
+  box-shadow: 0 0 0 3px var(--surface-high);
   background: var(--surface-mid);
 }
 .cf-textarea {
-  resize: vertical;
-  min-height: 120px;
+  resize: none;
+  min-height: 90px;
+  max-height: 250px;
   line-height: 1.65;
+  overflow-y: auto;
 }
 .cf-submit {
   width: 100%;
   justify-content: center;
-  padding: 15px 24px;
+  padding: 13px 20px;
   margin-top: 2px;
 }
 .cf-toast {

@@ -65,7 +65,7 @@ function triggerGlyph(element) {
 }
 window.triggerGlyph = triggerGlyph;
 
-// Smart Email Button Logic
+// Smart Email Button Logic & Textarea Auto-resize
 document.addEventListener('DOMContentLoaded', () => {
   const sendEmailBtn = document.getElementById('sendEmailBtn');
   if (sendEmailBtn) {
@@ -82,6 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`, '_blank', 'noopener,noreferrer');
       }
+    });
+  }
+
+  // Textarea auto-resize
+  const cfMessage = document.getElementById('cf-message');
+  if (cfMessage) {
+    cfMessage.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = this.scrollHeight + 'px';
     });
   }
 });
