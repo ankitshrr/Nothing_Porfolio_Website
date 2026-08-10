@@ -39,7 +39,7 @@ themeBtn.addEventListener("click", () => {
   const currentTheme = html.getAttribute("data-theme");
   const newTheme = currentTheme === "dark" ? "light" : "dark";
   html.setAttribute("data-theme", newTheme);
-  localStorage.setItem('nothing-theme', newTheme);
+  localStorage.setItem('app-theme', newTheme);
   
   setTimeout(() => {
     html.classList.remove('theme-transitioning');
@@ -490,7 +490,7 @@ function renderMinimalLangPills(langs, fallbackPrimary) {
 
 const PROJECT_OVERRIDES = {
   "nothing-portfolio": {
-    "title": "Nothing OS Portfolio",
+    "title": "Portfolio Website",
     "image": "assets/img/projects/portfolio.webp",
     "demo": "",
     "pinned": true
