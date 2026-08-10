@@ -1,6 +1,6 @@
-# Nothing-portfolio
+# Portfolio Website
 
-A minimalist personal portfolio website inspired by **Nothing OS** aesthetics — clean UI, monochrome palette, subtle grid, and glyph-style interactions.
+A minimalist personal portfolio website featuring a clean UI, monochrome palette, subtle grid, and interactive tech-inspired elements.
 This project is built to showcase my learning journey in **Web Fundamentals**, **Prompt Engineering**, and human-AI collaborative coding.
 
 ---
@@ -8,7 +8,7 @@ This project is built to showcase my learning journey in **Web Fundamentals**, *
 ## 📁 Project Structure
 
 ```
-nothing-portfolio/
+portfolio/
 ├─ index.html
 ├─ assets/
 │  ├─ css/
@@ -95,7 +95,6 @@ It also serves as a personal portfolio to demonstrate **clean design thinking an
 ## ⚠️ Disclaimer
 
 This is an **independent personal project**.
-Design inspiration is taken from **Nothing OS**, but this project is **not affiliated with or endorsed by Nothing**.
 
 ---
 
