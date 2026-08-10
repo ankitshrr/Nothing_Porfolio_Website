@@ -567,12 +567,49 @@ section.widget {
   margin-top: 10px;
   flex-wrap: wrap;
 }
-.hero-foot {
-  margin-top: 16px;
-  color: var(--text-muted);
+.hero-focus-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--glass-border);
+}
+.focus-label {
   font-family: "JetBrains Mono", monospace;
-  font-size: 11px;
-  max-width: 560px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.focus-label::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 4px;
+  background: var(--nothing-red);
+}
+.focus-tag {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+}
+.focus-tag:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 .glyph-container {
   position: absolute;
@@ -821,6 +858,7 @@ section.widget {
   color: var(--text-muted);
   font-family: "JetBrains Mono", monospace;
   font-size: 11px;
+  line-height: 1.6;
   padding-top: 12px;
   border-top: 1px solid var(--glass-border);
   width: fit-content;
