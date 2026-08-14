@@ -93,25 +93,27 @@ document.addEventListener('DOMContentLoaded', () => {
       this.style.height = this.scrollHeight + 'px';
     });
   }
-  // Radar Skills — Click-to-Lock + Hover Preview
-  const nodes = document.querySelectorAll('.radar-node');
-  const radarData = document.getElementById('radarData');
-  const rpStatus = document.getElementById('rpStatus');
+
+  // ── Radar Skills ────────────────────────────────────────────────────────────
+  const nodes      = document.querySelectorAll('.radar-node');
+  const radarData  = document.getElementById('radarData');
+  const rpStatus   = document.getElementById('rpStatus');
+
+  // Bottom-sheet elements (mobile only)
+  const skillSheet        = document.getElementById('skillSheet');
+  const skillSheetOverlay = document.getElementById('skillSheetOverlay');
+  const skillSheetBody    = document.getElementById('skillSheetBody');
+  const skillSheetTitle   = document.getElementById('skillSheetTitle');
+  const skillSheetClose   = document.getElementById('skillSheetClose');
+
   let lockedNode = null;
 
-  function showNodeData(node) {
-    const skill = node.getAttribute('data-skill');
-    const level = node.getAttribute('data-level');
-    const subsystem = node.getAttribute('data-subsystem');
-    const desc = node.getAttribute('data-desc');
-    const iconEl = node.querySelector('img, svg');
-    const iconSrc = iconEl ? iconEl.outerHTML : '';
+  function isMobileView() {
+    return window.matchMedia('(max-width: 900px)').matches;
+  }
 
-    rpStatus.classList.remove('blinking');
-    rpStatus.innerHTML = `NODE LOCKED: ${skill}`;
-    rpStatus.style.color = 'var(--text-main)';
-
-    radarData.innerHTML = `
+  function buildDataHTML(skill, level, subsystem, desc, iconSrc) {
+    return `
       <div class="rp-data-view active">
         <h3 class="rp-large-title">${iconSrc} ${skill}</h3>
         <div class="rp-stats-grid">
@@ -129,38 +131,120 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  if (nodes.length > 0 && radarData && rpStatus) {
-    // Click to lock/unlock
+  function showNodeData(node) {
+    const skill     = node.getAttribute('data-skill');
+    const level     = node.getAttribute('data-level');
+    const subsystem = node.getAttribute('data-subsystem');
+    const desc      = node.getAttribute('data-desc');
+    const iconEl    = node.querySelector('img, svg');
+    const iconSrc   = iconEl ? iconEl.outerHTML : '';
+
+    if (isMobileView()) {
+      // ── Bottom sheet (mobile) ──────────────────────────
+      skillSheetTitle.textContent = `NODE: ${skill}`;
+      skillSheetBody.innerHTML = buildDataHTML(skill, level, subsystem, desc, iconSrc);
+      openSkillSheet();
+    } else {
+      // ── Static panel (desktop) ────────────────────────
+      rpStatus.classList.remove('blinking');
+      rpStatus.innerHTML = `NODE LOCKED: ${skill}`;
+      rpStatus.style.color = 'var(--text-main)';
+      radarData.innerHTML = buildDataHTML(skill, level, subsystem, desc, iconSrc);
+    }
+  }
+
+  function resetStaticPanel() {
+    if (rpStatus) {
+      rpStatus.classList.add('blinking');
+      rpStatus.innerHTML = 'AWAITING NODE';
+      rpStatus.style.color = '';
+    }
+    if (radarData) {
+      radarData.innerHTML = `
+        <div class="rp-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          <p style="margin-top: 16px; opacity: 0.6;">HOVER OVER A NODE ON THE RADAR TO EXTRACT DATA.</p>
+        </div>
+      `;
+    }
+  }
+
+  // ── Bottom-sheet open / close ───────────────────────────────────────────────
+  function openSkillSheet() {
+    skillSheetOverlay.classList.add('open');
+    skillSheet.classList.add('open');
+    skillSheetOverlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden'; // prevent background scroll
+  }
+
+  function closeSkillSheet() {
+    skillSheetOverlay.classList.remove('open');
+    skillSheet.classList.remove('open');
+    skillSheetOverlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    // Also deselect the node visually
+    nodes.forEach(n => n.classList.remove('active'));
+    lockedNode = null;
+  }
+
+  if (skillSheetClose)   skillSheetClose.addEventListener('click',   closeSkillSheet);
+  if (skillSheetOverlay) skillSheetOverlay.addEventListener('click', closeSkillSheet);
+
+  // Swipe-down to close the bottom sheet
+  if (skillSheet) {
+    let touchStartY = 0;
+    skillSheet.addEventListener('touchstart', e => {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    skillSheet.addEventListener('touchend', e => {
+      const delta = e.changedTouches[0].clientY - touchStartY;
+      if (delta > 60) closeSkillSheet(); // swipe down ≥60px → close
+    }, { passive: true });
+  }
+
+  // Close on Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && skillSheet && skillSheet.classList.contains('open')) {
+      closeSkillSheet();
+    }
+  });
+
+  // ── Node click / hover bindings ─────────────────────────────────────────────
+  if (nodes.length > 0) {
     nodes.forEach(node => {
       node.addEventListener('click', (e) => {
         e.preventDefault();
-        if (lockedNode === node) {
-          // Unlock
-          lockedNode = null;
-          node.classList.remove('active');
-          rpStatus.classList.add('blinking');
-          rpStatus.innerHTML = 'AWAITING NODE';
-          rpStatus.style.color = '';
-          radarData.innerHTML = `
-            <div class="rp-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-              </svg>
-              <p style="margin-top: 16px; opacity: 0.6;">TAP A NODE ON THE RADAR TO EXTRACT DATA.</p>
-            </div>
-          `;
+
+        if (isMobileView()) {
+          // Mobile: always open sheet (toggle off if same node)
+          if (lockedNode === node) {
+            closeSkillSheet();
+          } else {
+            nodes.forEach(n => n.classList.remove('active'));
+            node.classList.add('active');
+            lockedNode = node;
+            showNodeData(node);
+          }
         } else {
-          // Lock to this node
-          lockedNode = node;
-          nodes.forEach(n => n.classList.remove('active'));
-          node.classList.add('active');
-          showNodeData(node);
+          // Desktop: click-to-lock behaviour
+          if (lockedNode === node) {
+            lockedNode = null;
+            node.classList.remove('active');
+            resetStaticPanel();
+          } else {
+            lockedNode = node;
+            nodes.forEach(n => n.classList.remove('active'));
+            node.classList.add('active');
+            showNodeData(node);
+          }
         }
       });
 
       // Hover preview (desktop only, doesn't override lock)
       node.addEventListener('mouseenter', () => {
-        if (!lockedNode) {
+        if (!isMobileView() && !lockedNode) {
           nodes.forEach(n => n.classList.remove('active'));
           node.classList.add('active');
           showNodeData(node);
@@ -168,27 +252,18 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // When mouse leaves the entire grid, revert to locked node or reset
+    // When mouse leaves the entire grid, revert to locked node or reset (desktop only)
     const radarGrid = document.getElementById('radarGrid');
     if (radarGrid) {
       radarGrid.addEventListener('mouseleave', () => {
+        if (isMobileView()) return;
         if (lockedNode) {
           nodes.forEach(n => n.classList.remove('active'));
           lockedNode.classList.add('active');
           showNodeData(lockedNode);
         } else {
           nodes.forEach(n => n.classList.remove('active'));
-          rpStatus.classList.add('blinking');
-          rpStatus.innerHTML = 'AWAITING NODE';
-          rpStatus.style.color = '';
-          radarData.innerHTML = `
-            <div class="rp-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-              </svg>
-              <p style="margin-top: 16px; opacity: 0.6;">HOVER OVER A NODE ON THE RADAR TO EXTRACT DATA.</p>
-            </div>
-          `;
+          resetStaticPanel();
         }
       });
     }

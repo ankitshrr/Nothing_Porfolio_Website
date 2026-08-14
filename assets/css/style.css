@@ -1160,15 +1160,181 @@ section.widget {
 @media (max-width: 900px) {
   .radar-skills-container {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   .radar-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    padding: 16px;
+    gap: 10px;
+    border-radius: 16px;
+    background-size: 20px 20px;
+  }
+  .radar-node {
+    padding: 14px 8px;
+    gap: 8px;
+    border-radius: 10px;
+  }
+  .radar-node img, .radar-node svg {
+    width: 26px;
+    height: 26px;
+  }
+  .radar-node span {
+    font-size: 9px;
+  }
+  .radar-panel {
+    border-radius: 16px;
+  }
+  .rp-header {
+    padding: 14px 16px;
+  }
+  .rp-body {
+    padding: 20px 16px;
+  }
+  .rp-large-title {
+    font-size: 22px;
+    gap: 10px;
+  }
+  .rp-large-title img, .rp-large-title svg {
+    width: 24px;
+    height: 24px;
+  }
+  .rp-stats-grid {
+    gap: 10px;
+  }
+  .rp-stat-box {
+    padding: 12px;
+    border-radius: 10px;
+  }
+  .rp-desc {
+    font-size: 13px;
   }
 }
 @media (max-width: 500px) {
   .radar-grid {
+    grid-template-columns: repeat(4, 1fr);
+    padding: 12px;
+    gap: 8px;
+  }
+  .radar-node {
+    padding: 10px 4px;
+    gap: 6px;
+    border-radius: 8px;
+    box-shadow: none;
+  }
+  .radar-node img, .radar-node svg {
+    width: 22px;
+    height: 22px;
+  }
+  .radar-node span {
+    font-size: 8px;
+    letter-spacing: 0.02em;
+  }
+  .radar-node:hover, .radar-node.active {
+    transform: translateY(-2px);
+  }
+}
+
+/* ============================================
+   MOBILE SKILL BOTTOM SHEET
+   ============================================ */
+.skill-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 900;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.skill-sheet-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.skill-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 901;
+  background: var(--bg);
+  border-top: 1px solid var(--glass-border);
+  border-radius: 24px 24px 0 0;
+  padding: 0 0 env(safe-area-inset-bottom, 16px);
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 85dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+.skill-sheet.open {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.skill-sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: var(--glass-border);
+  border-radius: 2px;
+  margin: 14px auto 0;
+  flex-shrink: 0;
+}
+
+.skill-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid var(--glass-border);
+  flex-shrink: 0;
+}
+
+.skill-sheet-title {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.skill-sheet-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--surface-low);
+  color: var(--text-main);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.skill-sheet-close:hover {
+  background: var(--surface-mid);
+  border-color: var(--text-dim);
+}
+
+.skill-sheet-body {
+  padding: 24px 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+}
+
+/* On mobile, use bottom sheet — hide static panel */
+@media (max-width: 900px) {
+  .radar-panel {
+    display: none !important;
+  }
+  /* Make the radar-skills-container single column (already set) */
+  .radar-skills-container {
     grid-template-columns: 1fr;
-    padding: 20px;
   }
 }
 
