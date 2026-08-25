@@ -339,9 +339,38 @@ function startHeroAutoplay() {
 
 brandBtn.addEventListener("click", () => heroGlyphBurst());
 
-const heroPhoto = document.querySelector(".hero-photo");
-if (heroPhoto) {
-  heroPhoto.addEventListener("mouseenter", () => heroGlyphBurst());
+// Automation Terminal Animation
+function runTerminalAnimation() {
+  const termBody = document.getElementById("termBody");
+  if (!termBody) return;
+  
+  const waitLines = termBody.querySelectorAll(".term-wait");
+  
+  // Reset
+  waitLines.forEach(line => line.style.display = "none");
+  
+  let delay = 600; // start after 0.6s
+  
+  waitLines.forEach((line, index) => {
+    // Add small pauses to simulate real processing time
+    if (index === 4) delay += 400; // before tests start
+    if (index === 8) delay += 500; // before final summary
+    
+    setTimeout(() => {
+      line.style.display = "block";
+    }, delay);
+    
+    delay += 150 + Math.random() * 150; // 150-300ms per line
+  });
+}
+
+// Run terminal animation on load
+setTimeout(runTerminalAnimation, 500);
+
+// Also re-run animation on click (just for fun)
+const termBodyWrapper = document.getElementById("termBody");
+if (termBodyWrapper) {
+  termBodyWrapper.parentElement.addEventListener("click", runTerminalAnimation);
 }
 
 navToggle.addEventListener("click", () => {

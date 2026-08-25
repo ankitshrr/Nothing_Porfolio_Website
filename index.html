@@ -97,17 +97,29 @@
             </div>
           </div>
 
-          <div class="about-photo-container hero-photo" aria-label="Profile photo">
-            <!-- GLYPH CORNERS -->
-            <div class="photo-glyph pg-tl">
-              <div class="glyph-segment idle pg-h"></div>
-              <div class="glyph-segment idle pg-v"></div>
+          <!-- AUTOMATION TERMINAL -->
+          <div class="hero-terminal" aria-hidden="true">
+            <div class="terminal-header">
+              <div class="term-dots">
+                <span class="term-dot close"></span>
+                <span class="term-dot min"></span>
+                <span class="term-dot max"></span>
+              </div>
+              <div class="term-title">ankit@qa-automation:~</div>
             </div>
-            <div class="photo-glyph pg-br">
-              <div class="glyph-segment idle pg-h"></div>
-              <div class="glyph-segment idle pg-v"></div>
+            <div class="terminal-body" id="termBody">
+              <div class="term-line"><span class="term-prompt">$</span> pytest portfolio.py</div>
+              <div class="term-line term-wait" style="display: none;">============================= test session starts ==============================</div>
+              <div class="term-line term-wait" style="display: none;">platform linux -- Python 3.12, pytest-8.0.0</div>
+              <div class="term-line term-wait" style="display: none;">collected 3 items</div>
+              <div class="term-line term-wait" style="display: none;"><br></div>
+              <div class="term-line term-wait" style="display: none;">test_ui.py <span class="term-pass">PASSED</span></div>
+              <div class="term-line term-wait" style="display: none;">test_api.py <span class="term-pass">PASSED</span></div>
+              <div class="term-line term-wait" style="display: none;">test_integration.py <span class="term-pass">PASSED</span></div>
+              <div class="term-line term-wait" style="display: none;"><br></div>
+              <div class="term-line term-wait" style="display: none;"><span class="term-pass-strong">============================== 3 passed in 0.42s ===============================</span></div>
+              <div class="term-line term-wait" style="display: none;"><span class="term-prompt">$</span> <span class="term-cursor"></span></div>
             </div>
-            <img src="assets/img/ankit.webp" alt="Profile" />
           </div>
         </div>
       </section>
@@ -120,8 +132,8 @@
             <h2>Who I Am</h2>
           </div>
         </div>
-        <div class="about-grid" style="grid-template-columns: 1fr;">
-          <div class="about-text-container" style="max-width: 900px;">
+        <div class="about-grid">
+          <div class="about-text-container">
             <p class="about-desc" style="font-size: clamp(16px, 2vw, 22px);">
               I’m a QA Engineer focused on Manual QA, software testing, and Python. I enjoy finding issues, creating effective test cases, and improving software quality. I’m expanding into Automation Testing, with a long-term goal of growing into DevOps and understanding the software lifecycle from testing to deployment.
             </p>
@@ -163,6 +175,19 @@
             <p class="about-foot" style="margin-top: 12px;">
               Location: Kathmandu, Nepal
             </p>
+          </div>
+
+          <div class="about-photo-container" aria-label="Profile photo">
+            <!-- GLYPH CORNERS -->
+            <div class="photo-glyph pg-tl">
+              <div class="glyph-segment idle pg-h"></div>
+              <div class="glyph-segment idle pg-v"></div>
+            </div>
+            <div class="photo-glyph pg-br">
+              <div class="glyph-segment idle pg-h"></div>
+              <div class="glyph-segment idle pg-v"></div>
+            </div>
+            <img src="assets/img/ankit.webp" alt="Profile" />
           </div>
         </div>
       </section>
