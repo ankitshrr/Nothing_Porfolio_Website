@@ -760,12 +760,24 @@ section.widget {
   padding: 16px;
   color: var(--text-dim);
   line-height: 1.5;
-  min-height: 220px;
+  height: 320px;
+  overflow-y: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.terminal-body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }
 .term-prompt {
   color: var(--accent-color);
   margin-right: 8px;
   font-weight: bold;
+}
+.term-command-text {
+  color: #ffbd2e; /* yellow */
+}
+.term-file {
+  color: #58a6ff; /* blue */
 }
 .term-pass {
   color: #27c93f;
@@ -790,7 +802,28 @@ section.widget {
 @media (max-width: 900px) {
   .hero-terminal {
     justify-self: center;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
+    font-size: 11px; /* Smaller terminal font on mobile */
+  }
+  .hero-terminal .terminal-body {
+    padding: 12px;
+    height: 260px;
+  }
+  
+  /* Buttons full width on mobile */
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-actions .btn-system {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  /* Hide focus tags entirely on mobile */
+  .hero-focus-tags {
+    display: none;
   }
 }
 

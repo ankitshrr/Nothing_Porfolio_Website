@@ -339,38 +339,148 @@ function startHeroAutoplay() {
 
 brandBtn.addEventListener("click", () => heroGlyphBurst());
 
-// Automation Terminal Animation
+// Automation Terminal Animation (Dynamic)
+const terminalCommands = [
+  {
+    cmd: "pytest portfolio.py",
+    prompt: "$",
+    output: [
+      { text: "============================= test session starts ==============================" },
+      { text: "platform linux -- Python 3.12, pytest-8.0.0" },
+      { text: "collected 3 items" },
+      { text: "<br>" },
+      { text: "<span class='term-file'>test_ui.py</span> <span class='term-pass'>PASSED</span>" },
+      { text: "<span class='term-file'>test_api.py</span> <span class='term-pass'>PASSED</span>" },
+      { text: "<span class='term-file'>test_integration.py</span> <span class='term-pass'>PASSED</span>" },
+      { text: "<br>" },
+      { text: "<span class='term-pass-strong'>============================== 3 passed in 0.42s ===============================</span>" },
+      { text: "<span class='term-prompt'>$</span> <span class='term-cursor'></span>", delay: 0 }
+    ]
+  },
+  {
+    cmd: "docker build -t qa-env .",
+    prompt: "$",
+    output: [
+      { text: "Sending build context to Docker daemon  2.048kB" },
+      { text: "Step 1/5 : FROM python:3.12-slim" },
+      { text: " ---> 7a46227b0c9f" },
+      { text: "Step 2/5 : WORKDIR /app" },
+      { text: " ---> Using cache" },
+      { text: " ---> d1b4421b02b9" },
+      { text: "Step 3/5 : COPY requirements.txt ." },
+      { text: " ---> 8a2f4c7b8d11" },
+      { text: "Step 4/5 : RUN pip install -r requirements.txt", delay: 300 },
+      { text: " ---> <span class='term-pass'>Successfully installed pytest-8.0.0</span>" },
+      { text: "<span class='term-pass-strong'>Successfully built 9f2e345a1b2c</span>" },
+      { text: "<span class='term-pass'>Successfully tagged qa-env:latest</span>" },
+      { text: "<span class='term-prompt'>$</span> <span class='term-cursor'></span>", delay: 0 }
+    ]
+  },
+  {
+    cmd: "npx cypress run",
+    prompt: ">",
+    output: [
+      { text: "================================================================================" },
+      { text: "  (Run Starting)" },
+      { text: "  <span class='term-file'>┌────────────────────────────────────────────────────────────────────────────┐</span>" },
+      { text: "  <span class='term-file'>│</span> Cypress:        13.6.0                                                     <span class='term-file'>│</span>" },
+      { text: "  <span class='term-file'>│</span> Browser:        Electron 114 (headless)                                    <span class='term-file'>│</span>" },
+      { text: "  <span class='term-file'>│</span> Specs:          1 found (portfolio_spec.cy.js)                             <span class='term-file'>│</span>" },
+      { text: "  <span class='term-file'>└────────────────────────────────────────────────────────────────────────────┘</span>" },
+      { text: "  Running:  <span class='term-file'>portfolio_spec.cy.js</span>                                        (1 of 1)", delay: 600 },
+      { text: "  <span class='term-pass'>✔</span>  Portfolio loads successfully (842ms)" },
+      { text: "  <span class='term-pass'>✔</span>  Navigation links work (1205ms)" },
+      { text: "  <span class='term-pass'>✔</span>  Contact form validates (950ms)" },
+      { text: "  <span class='term-pass-strong'>All specs passed!</span>" },
+      { text: "<span class='term-prompt'>></span> <span class='term-cursor'></span>", delay: 0 }
+    ]
+  }
+];
+
+let isTerminalRunning = false;
+
 function runTerminalAnimation() {
-  const termBody = document.getElementById("termBody");
-  if (!termBody) return;
+  if (isTerminalRunning) return;
+  isTerminalRunning = true;
   
-  const waitLines = termBody.querySelectorAll(".term-wait");
+  const termBody = document.getElementById("termBody");
+  const termPrompt = document.getElementById("termPrompt");
+  const termCommand = document.getElementById("termCommand");
+  const typeCursor = document.getElementById("typeCursor");
+  const termOutput = document.getElementById("termOutput");
+  
+  if (!termBody || !termCommand || !termOutput) {
+    isTerminalRunning = false;
+    return;
+  }
+  
+  // Pick random command
+  const randIndex = Math.floor(Math.random() * terminalCommands.length);
+  const selected = terminalCommands[randIndex];
   
   // Reset
-  waitLines.forEach(line => line.style.display = "none");
+  termOutput.innerHTML = "";
+  termCommand.textContent = "";
+  termPrompt.textContent = selected.prompt;
+  if (typeCursor) typeCursor.style.display = "inline-block";
   
-  let delay = 600; // start after 0.6s
+  let charIndex = 0;
   
-  waitLines.forEach((line, index) => {
-    // Add small pauses to simulate real processing time
-    if (index === 4) delay += 400; // before tests start
-    if (index === 8) delay += 500; // before final summary
+  // Type command
+  function typeChar() {
+    if (charIndex < selected.cmd.length) {
+      termCommand.textContent += selected.cmd.charAt(charIndex);
+      charIndex++;
+      setTimeout(typeChar, 30 + Math.random() * 50); // Realistic typing speed
+    } else {
+      // Finished typing, wait a beat then execute
+      setTimeout(() => {
+        if (typeCursor) typeCursor.style.display = "none";
+        executeLines();
+      }, 300);
+    }
+  }
+  
+  function executeLines() {
+    let lineIndex = 0;
     
-    setTimeout(() => {
-      line.style.display = "block";
-    }, delay);
+    function showNextLine() {
+      if (lineIndex < selected.output.length) {
+        const lineData = selected.output[lineIndex];
+        
+        const lineDiv = document.createElement("div");
+        lineDiv.className = "term-line";
+        lineDiv.innerHTML = lineData.text;
+        termOutput.appendChild(lineDiv);
+        
+        // Auto-scroll to bottom
+        termBody.scrollTop = termBody.scrollHeight;
+        
+        lineIndex++;
+        
+        let waitTime = lineData.delay !== undefined ? lineData.delay : (50 + Math.random() * 100);
+        setTimeout(showNextLine, waitTime);
+      } else {
+        isTerminalRunning = false;
+      }
+    }
     
-    delay += 150 + Math.random() * 150; // 150-300ms per line
-  });
+    showNextLine();
+  }
+  
+  // Start typing after a short delay
+  setTimeout(typeChar, 400);
 }
 
 // Run terminal animation on load
 setTimeout(runTerminalAnimation, 500);
 
-// Also re-run animation on click (just for fun)
+// Also re-run animation on click
 const termBodyWrapper = document.getElementById("termBody");
 if (termBodyWrapper) {
-  termBodyWrapper.parentElement.addEventListener("click", runTerminalAnimation);
+  termBodyWrapper.parentElement.addEventListener("click", () => {
+    runTerminalAnimation();
+  });
 }
 
 navToggle.addEventListener("click", () => {
