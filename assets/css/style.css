@@ -715,9 +715,6 @@ section.widget {
     grid-template-columns: 1fr;
     gap: 32px;
   }
-  .hero-title .dot-matrix {
-    font-size: 0.8em; /* Ensure it's larger than Hi I'm (16px) */
-  }
 }
 
 /* AUTOMATION TERMINAL */
@@ -846,7 +843,7 @@ section.widget {
   color: var(--text-dim);
   font-family: "JetBrains Mono", monospace;
   display: block;
-  font-size: 0.4em;
+  font-size: 28px; /* Fixed size to perfectly align with 16px "Hi, I'm" across all devices */
   letter-spacing: 0.1em;
   margin-bottom: 10px;
   word-break: break-word;
