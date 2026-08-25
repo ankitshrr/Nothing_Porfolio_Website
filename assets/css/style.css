@@ -576,6 +576,18 @@ section.widget {
   margin-top: 10px;
   flex-wrap: wrap;
 }
+.resume-pulse {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  animation: border-pulse 2s infinite;
+}
+@keyframes border-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.15); }
+  70% { box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
 .hero-focus-tags {
   display: flex;
   flex-wrap: wrap;
