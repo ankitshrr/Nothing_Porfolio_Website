@@ -40,7 +40,6 @@
   <nav id="mainNav" aria-label="Primary navigation">
     <div class="ng-segment ng-top-bar"></div>
     <div class="ng-segment ng-right-arc"></div>
-    <div class="ng-segment ng-left-dot"></div>
     <div class="ng-segment ng-bottom-dash"></div>
 
     <a href="#home" class="nav-brand" id="brandBtn" aria-label="Home" style="display:flex; align-items:center; gap:8px;">
@@ -388,13 +387,13 @@
 
       <!-- MY WORK -->
       <section class="widget projects-widget" id="work">
-        <div class="section-header sm-margin" style="margin-bottom: 24px; align-items: flex-start; flex-direction: column; justify-content: flex-start; gap: 16px;">
+        <div class="section-header projects-header">
           <div>
             <span class="label">Projects</span>
             <h2>My Work</h2>
           </div>
           
-          <div class="project-filters" id="projectFilters" style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <div class="project-filters" id="projectFilters">
             <button class="filter-btn active" data-filter="all">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg><span>All</span>
             </button>
@@ -417,103 +416,94 @@
           <div id="featuredProjects" class="projects-grid">
             
             <!-- Hero Card -->
-            <a href="https://github.com/ankitshrr/nothing-portfolio" target="_blank" rel="noopener" class="bento-card" data-category="web">
+            <div class="bento-card" data-category="web">
               <div class="bento-img">
                 <img src="assets/img/projects/portfolio.webp" alt="Portfolio" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80'" />
               </div>
               <div class="bento-content">
                 <div class="bento-header">
-                  <h3 class="bento-title">Portfolio Website</h3>
-                  <svg class="bento-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                    <polyline points="7 7 17 7 17 17"></polyline>
-                  </svg>
+                  <div>
+                    <span style="font-family:'JetBrains Mono', monospace; font-size:10px; padding:4px 8px; background:rgba(255,255,255,0.1); border-radius:4px; margin-bottom:8px; display:inline-block; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-main);">Featured</span>
+                    <h3 class="bento-title">Portfolio Website</h3>
+                  </div>
                 </div>
-                <div>
-                  <span class="qa-metric-badge" style="display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border-radius:4px; background:rgba(255,255,255,0.05); color:#E5E7EB; font-family:'JetBrains Mono',monospace; font-size:9.5px; border:1px solid rgba(255,255,255,0.1); margin-bottom:12px;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
-                    Lighthouse: 100/100
-                  </span>
+                
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+                  <span class="qa-metric-badge" style="display:inline-flex; align-items:center; padding:4px 8px; border-radius:4px; background:rgba(255,255,255,0.05); color:#E5E7EB; font-family:'JetBrains Mono',monospace; font-size:9.5px; border:1px solid rgba(255,255,255,0.1);">Lighthouse 100</span>
+                  <span class="qa-metric-badge" style="display:inline-flex; align-items:center; padding:4px 8px; border-radius:4px; background:rgba(255,255,255,0.05); color:#E5E7EB; font-family:'JetBrains Mono',monospace; font-size:9.5px; border:1px solid rgba(255,255,255,0.1);">60 FPS</span>
                 </div>
-                <p class="bento-desc">A high-performance personal portfolio built with vanilla web technologies. Optimized for perfect lighthouse scores, 60fps animations, and zero layout shifts across all viewports.</p>
-                <div class="bento-langs">
-                  <div style="display: flex; align-items: center; gap: 4px;">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" width="14" height="14" alt="HTML5" class="devicon" style="filter:grayscale(100%) opacity(0.5); transition:all 0.3s;" />
-                    <span style="font-size: 11px; color:var(--text-muted); font-family:'JetBrains Mono', monospace; font-weight:600;">HTML</span>
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 4px; margin-left: 6px;">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" width="14" height="14" alt="CSS3" class="devicon" style="filter:grayscale(100%) opacity(0.5); transition:all 0.3s;" />
-                    <span style="font-size: 11px; color:var(--text-muted); font-family:'JetBrains Mono', monospace; font-weight:600;">CSS</span>
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 4px; margin-left: 6px;">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" width="14" height="14" alt="JS" class="devicon" style="filter:grayscale(100%) opacity(0.5); transition:all 0.3s;" />
-                    <span style="font-size: 11px; color:var(--text-muted); font-family:'JetBrains Mono', monospace; font-weight:600;">JS</span>
-                  </div>
+                
+                <p class="bento-desc">A high-performance personal portfolio built with vanilla web technologies.</p>
+                
+                <div style="font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-muted); margin-bottom: 16px;">HTML · CSS · JavaScript</div>
+                
+                <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-top:auto; padding-top:16px; border-top:1px solid rgba(255,255,255,0.05);">
+                  <a href="https://ankitshrr.github.io/nothing-portfolio" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--text-main); text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                    Live Demo
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </a>
+                  <a href="https://github.com/ankitshrr/nothing-portfolio" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:center; width:36px; height:36px; background:rgba(255,255,255,0.05); border-radius:8px; color:var(--text-main); text-decoration:none; transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'" aria-label="GitHub Repository">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                  </a>
                 </div>
               </div>
-            </a>
+            </div>
 
             <!-- Card 2 -->
-            <a href="https://github.com/ankitshrr/zhangjiajie-3d-parallax" target="_blank" rel="noopener" class="bento-card" data-category="web">
+            <div class="bento-card" data-category="web">
               <div class="bento-img">
                 <img src="assets/img/projects/altitude.webp" alt="Altitude 3D Parallax" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1506744626753-140285396243?auto=format&fit=crop&w=600&q=80'" />
               </div>
               <div class="bento-content">
                 <div class="bento-header">
                   <h3 class="bento-title">Altitude 3D Parallax</h3>
-                  <svg class="bento-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                    <polyline points="7 7 17 7 17 17"></polyline>
-                  </svg>
                 </div>
-                <div>
-                  <span class="qa-metric-badge" style="display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border-radius:4px; background:rgba(255,255,255,0.05); color:#E5E7EB; font-family:'JetBrains Mono',monospace; font-size:9.5px; border:1px solid rgba(255,255,255,0.1); margin-bottom:12px;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-                    60 FPS Render
-                  </span>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+                  <span class="qa-metric-badge" style="display:inline-flex; align-items:center; padding:4px 8px; border-radius:4px; background:rgba(255,255,255,0.05); color:#E5E7EB; font-family:'JetBrains Mono',monospace; font-size:9.5px; border:1px solid rgba(255,255,255,0.1);">60 FPS</span>
                 </div>
-                <p class="bento-desc">A highly optimized 3D scroll experience. Utilizes hardware-accelerated CSS transforms and requestAnimationFrame to ensure buttery smooth performance.</p>
-                <div class="bento-langs">
-                  <div style="display: flex; align-items: center; gap: 4px;">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" width="14" height="14" alt="HTML5" class="devicon" style="filter:grayscale(100%) opacity(0.5); transition:all 0.3s;" />
-                    <span style="font-size: 11px; color:var(--text-muted); font-family:'JetBrains Mono', monospace; font-weight:600;">HTML</span>
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 4px; margin-left: 6px;">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" width="14" height="14" alt="CSS3" class="devicon" style="filter:grayscale(100%) opacity(0.5); transition:all 0.3s;" />
-                    <span style="font-size: 11px; color:var(--text-muted); font-family:'JetBrains Mono', monospace; font-weight:600;">CSS</span>
-                  </div>
+                <p class="bento-desc">An immersive 3D scrolling experience inspired by Zhangjiajie.</p>
+                
+                <div style="font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-muted); margin-bottom: 16px;">HTML · CSS</div>
+                
+                <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-top:auto; padding-top:16px; border-top:1px solid rgba(255,255,255,0.05);">
+                  <a href="https://ankitshrr.github.io/zhangjiajie-3d-parallax" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--text-main); text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                    Live Demo
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </a>
+                  <a href="https://github.com/ankitshrr/zhangjiajie-3d-parallax" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:center; width:36px; height:36px; background:rgba(255,255,255,0.05); border-radius:8px; color:var(--text-main); text-decoration:none; transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'" aria-label="GitHub Repository">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                  </a>
                 </div>
               </div>
-            </a>
+            </div>
 
             <!-- Card 3 -->
-            <a href="https://github.com/ankitshrr/python-lyric-sync" target="_blank" rel="noopener" class="bento-card" data-category="other">
+            <div class="bento-card" data-category="other">
               <div class="bento-img">
                 <img src="assets/img/projects/terminal.webp" alt="Terminal Lyric Sync" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80'" />
               </div>
               <div class="bento-content">
                 <div class="bento-header">
                   <h3 class="bento-title">Terminal Lyric Sync</h3>
-                  <svg class="bento-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                    <polyline points="7 7 17 7 17 17"></polyline>
-                  </svg>
                 </div>
-                <div>
-                  <span class="qa-metric-badge" style="display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border-radius:4px; background:rgba(255,255,255,0.05); color:#E5E7EB; font-family:'JetBrains Mono',monospace; font-size:9.5px; border:1px solid rgba(255,255,255,0.1); margin-bottom:12px;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-                    Python 3.10+
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+                  <span class="qa-metric-badge" style="display:inline-flex; align-items:center; padding:4px 8px; border-radius:4px; background:rgba(255,255,255,0.05); color:#E5E7EB; font-family:'JetBrains Mono',monospace; font-size:9.5px; border:1px solid rgba(255,255,255,0.1);">Python 3.10+</span>
+                </div>
+                <p class="bento-desc">A lightweight CLI tool that fetches and synchronizes song lyrics to audio playback in real-time.</p>
+                
+                <div style="font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-muted); margin-bottom: 16px;">Python · CLI</div>
+                
+                <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-top:auto; padding-top:16px; border-top:1px solid rgba(255,255,255,0.05);">
+                  <span style="font-size:13px; font-weight:600; color:var(--text-muted); display:inline-flex; align-items:center; gap:6px;">
+                    CLI Tool
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
                   </span>
-                </div>
-                <p class="bento-desc">A lightweight CLI tool that fetches and synchronizes song lyrics to audio playback in real-time, handling asynchronous text streams directly in the terminal.</p>
-                <div class="bento-langs">
-                  <div style="display: flex; align-items: center; gap: 4px;">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" width="14" height="14" alt="Python" class="devicon" style="filter:grayscale(100%) opacity(0.5); transition:all 0.3s;" />
-                    <span style="font-size: 11px; color:var(--text-muted); font-family:'JetBrains Mono', monospace; font-weight:600;">PYTHON</span>
-                  </div>
+                  <a href="https://github.com/ankitshrr/python-lyric-sync" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:center; width:36px; height:36px; background:rgba(255,255,255,0.05); border-radius:8px; color:var(--text-main); text-decoration:none; transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'" aria-label="GitHub Repository">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                  </a>
                 </div>
               </div>
-            </a>
+            </div>
           </div>
           
           <!-- Empty State -->
