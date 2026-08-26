@@ -487,20 +487,42 @@ navToggle.addEventListener("click", () => {
   mainNav.classList.toggle("expanded");
   const expanded = mainNav.classList.contains("expanded");
   navToggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+  
+  const sidePanel = document.getElementById("mobileSidePanel");
+  if (sidePanel) sidePanel.classList.toggle("open", expanded);
+  document.body.classList.toggle("no-scroll", expanded);
 });
 
 navLinks.forEach((link) =>
   link.addEventListener("click", () => {
     mainNav.classList.remove("expanded");
     navToggle.setAttribute("aria-expanded", "false");
+    const sidePanel = document.getElementById("mobileSidePanel");
+    if (sidePanel) sidePanel.classList.remove("open");
+    document.body.classList.remove("no-scroll");
     triggerNavGlyphs();
   }),
 );
 
-document.addEventListener("click", (e) => {
-  if (!mainNav.contains(e.target)) {
+// Also add listeners to side-panel links
+const sideLinks = document.querySelectorAll(".side-link");
+sideLinks.forEach((link) =>
+  link.addEventListener("click", () => {
     mainNav.classList.remove("expanded");
     navToggle.setAttribute("aria-expanded", "false");
+    const sidePanel = document.getElementById("mobileSidePanel");
+    if (sidePanel) sidePanel.classList.remove("open");
+    document.body.classList.remove("no-scroll");
+  }),
+);
+
+document.addEventListener("click", (e) => {
+  const sidePanel = document.getElementById("mobileSidePanel");
+  if (!mainNav.contains(e.target) && (!sidePanel || !sidePanel.contains(e.target))) {
+    mainNav.classList.remove("expanded");
+    navToggle.setAttribute("aria-expanded", "false");
+    if (sidePanel) sidePanel.classList.remove("open");
+    document.body.classList.remove("no-scroll");
   }
 });
 
@@ -848,93 +870,57 @@ function bindProjectCardTaps() {
   });
 }
 
-async function fetchGitHubLive() {
-  const userUrl = `https://api.github.com/users/${GH_USERNAME}`;
-  const reposUrl = `https://api.github.com/users/${GH_USERNAME}/repos?sort=updated&per_page=9`;
-  const [userRes, reposRes] = await Promise.all([fetch(userUrl), fetch(reposUrl)]);
-  if (!userRes.ok || !reposRes.ok) {
-    const rateLimited = userRes.status === 403 || reposRes.status === 403;
-    throw new Error(rateLimited ? "RATE_LIMIT" : "ERROR");
-  }
-  const user = await userRes.json();
-  const repos = await reposRes.json();
-  return { user, repos };
-}
+// =========================
+// BENTO PROJECT FILTERING
+// =========================
+const projectFilters = document.querySelectorAll('.filter-btn');
+const projectCards = document.querySelectorAll('.bento-card');
 
-
-function applyWorkFilters(repos) {
-  let list = (Array.isArray(repos) ? repos : []).filter((r) => !r.fork && r.language);
-
-  list.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
-
-  // pinned first
-  list.sort((a, b) => (isPinned(b.name) ? 1 : 0) - (isPinned(a.name) ? 1 : 0));
-
-  return list.slice(0, 9);
-}
-
-function renderGitHub(user, repos) {
-  const visible = applyWorkFilters(repos);
-
-  if (!visible.length) {
-    ghReposEl.innerHTML = `
-      <div class="work-card-inner" style="cursor:default">
-        <span class="label">EMPTY</span>
-        <h3>No repos found</h3>
-        <p class="card-desc">Public projects will appear here automatically when repos are available.</p>
-      </div>
-    `;
-    return;
-  }
-
-  // Render fast first (no langs)
-  ghReposEl.innerHTML = visible.map((r) => repoCard(r, [])).join("");
-  bindProjectCardTaps();
-
-  // Then enhance with langs
-  Promise.allSettled(visible.map((r) => fetchRepoLanguages(GH_USERNAME, r.name))).then((langResults) => {
-    ghReposEl.innerHTML = visible
-      .map((r, idx) => {
-        const langs = langResults[idx] && langResults[idx].status === "fulfilled" ? langResults[idx].value : [];
-        return repoCard(r, langs);
-      })
-      .join("");
-    bindProjectCardTaps();
+function filterProjects(category) {
+  let visibleCount = 0;
+  
+  projectCards.forEach(card => {
+    const cardCategory = card.getAttribute('data-category');
+    
+    if (category === 'all' || cardCategory === category) {
+      visibleCount++;
+      card.classList.remove('filtering-out');
+      setTimeout(() => {
+        card.style.display = 'flex';
+      }, 50); // Small delay to let display flex apply before opacity anim
+    } else {
+      card.classList.add('filtering-out');
+      setTimeout(() => {
+        card.style.display = 'none';
+      }, 300); // Matches transition duration
+    }
   });
-}
 
-async function loadGitHub() {
-  // 1) Try cache first
-  const cache = loadRepoCache();
-  if (cache.user && Array.isArray(cache.repos) && cache.repos.length) {
-    renderGitHub(cache.user, cache.repos);
-  }
-
-  // 2) Refresh live
-  try {
-    const { user, repos } = await fetchGitHubLive();
-    saveRepoCache(user, repos);
-    renderGitHub(user, repos);
-  } catch (err) {
-    const msg = (err && err.message) || "ERROR";
-    const rateLimited = msg === "RATE_LIMIT";
-
-    const cache2 = loadRepoCache();
-    const hasCache = cache2.user && Array.isArray(cache2.repos) && cache2.repos.length;
-    if (!hasCache) {
-      ghReposEl.innerHTML = `
-        <div class="work-card-inner" style="cursor:default">
-          <span class="label">STATUS</span>
-          <h3>GitHub data unavailable</h3>
-          <p class="card-desc">${rateLimited ? "GitHub API rate limit hit. Refresh later." : "Could not fetch GitHub right now."}</p>
-          <div class="card-actions">
-            <a href="https://github.com/${GH_USERNAME}" target="_blank" rel="noopener" class="btn-system btn-ghost btn-tiny">Open GitHub</a>
-          </div>
-        </div>
-      `;
+  const emptyState = document.getElementById('emptyState');
+  if (emptyState) {
+    if (visibleCount === 0) {
+      setTimeout(() => {
+        emptyState.style.display = 'block';
+      }, 300);
+    } else {
+      emptyState.style.display = 'none';
     }
   }
 }
+
+projectFilters.forEach(btn => {
+  btn.addEventListener('click', () => {
+    // Remove active class from all
+    projectFilters.forEach(f => f.classList.remove('active'));
+    // Add to clicked
+    btn.classList.add('active');
+    
+    // Filter
+    filterProjects(btn.getAttribute('data-filter'));
+  });
+});
+
+
 
 // Typewriter removed
 
@@ -971,8 +957,6 @@ document.querySelectorAll('.widget').forEach(widget => {
 
 document.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add('loading');
-  loadGitHub();
-  setInterval(loadGitHub, 10 * 60 * 1000);
 });
 
 window.addEventListener("load", () => {
@@ -1140,3 +1124,48 @@ function updateKtmTime() {
 }
 setInterval(updateKtmTime, 1000);
 updateKtmTime();
+
+// BUG HUNT EASTER EGG
+document.addEventListener('DOMContentLoaded', () => {
+  let bugsSquashed = 0;
+  const totalBugs = 3;
+  const bugTargets = document.querySelectorAll('.bug-target');
+  const bugToast = document.getElementById('bugToast');
+
+  bugTargets.forEach(bug => {
+    bug.addEventListener('click', function() {
+      if (this.classList.contains('fixed')) return;
+      
+      this.classList.add('fixed');
+      bugsSquashed++;
+      
+      // Fix visually
+      if (this.dataset.bug === "1") {
+        this.style.transform = "none";
+      } else if (this.dataset.bug === "2") {
+        this.style.transform = "none";
+      } else if (this.dataset.bug === "3") {
+        this.textContent = "|";
+        this.style.fontWeight = "normal";
+      }
+      
+      showBugToast(`🐛 Bug Squashed! (${bugsSquashed}/${totalBugs})`);
+      
+      if (bugsSquashed === totalBugs) {
+        setTimeout(() => showBugToast(`🎉 QA Passed! You found all the bugs.`), 2000);
+      }
+    });
+  });
+
+  function showBugToast(msg) {
+    if (!bugToast) return;
+    bugToast.textContent = msg;
+    bugToast.classList.add('show');
+    
+    if (bugToast.timeoutId) clearTimeout(bugToast.timeoutId);
+    
+    bugToast.timeoutId = setTimeout(() => {
+      bugToast.classList.remove('show');
+    }, 2500);
+  }
+});
