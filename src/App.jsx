@@ -15,7 +15,7 @@ import useScrollSpy from './hooks/useScrollSpy';
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
   const sectionIds = ['home', 'about', 'experience', 'skills', 'contributions', 'work', 'contact'];
-  const { activeSection, scrollProgress } = useScrollSpy(sectionIds);
+  const { activeSection } = useScrollSpy(sectionIds);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -105,7 +105,7 @@ function App() {
     <>
 
 
-      <div id="scrollProgress" style={{ width: `${scrollProgress}%` }}></div>
+      <div id="scrollProgress"></div>
       
       <Navbar toggleTheme={toggleTheme} theme={theme} activeSection={activeSection} />
 

@@ -2,15 +2,18 @@ import { useState, useEffect } from 'react';
 
 export default function useScrollSpy(sectionIds, offset = 140) {
   const [activeSection, setActiveSection] = useState(sectionIds[0] || 'home');
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Scroll Progress Calculation
+      // Scroll Progress Calculation (Direct DOM mutation to prevent re-renders)
       const totalScroll = document.documentElement.scrollTop || document.body.scrollTop;
       const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrollVal = windowHeight > 0 ? (totalScroll / windowHeight) * 100 : 0;
-      setScrollProgress(scrollVal);
+      const scrollVal = windowHeight > 0 ? totalScroll / windowHeight : 0;
+      
+      const progressBar = document.getElementById('scrollProgress');
+      if (progressBar) {
+        progressBar.style.transform = `scaleX(${scrollVal})`;
+      }
 
       // Scroll Spy Calculation (Optimized active section detection)
       const y = window.scrollY + offset;
@@ -37,5 +40,5 @@ export default function useScrollSpy(sectionIds, offset = 140) {
     };
   }, [sectionIds, offset, activeSection]);
 
-  return { activeSection, scrollProgress };
+  return { activeSection };
 }
