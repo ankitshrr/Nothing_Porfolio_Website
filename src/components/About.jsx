@@ -1,8 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
 export default function About() {
+  useEffect(() => {
+    const runGlyphSequence = () => {
+      const segments = document.querySelectorAll(".glyph-segment");
+      segments.forEach((seg, i) => {
+        const delay = i === 0 ? 0 : i * 120 + Math.random() * 100;
+        setTimeout(() => {
+          seg.classList.add("active");
+          setTimeout(() => seg.classList.remove("active"), 150);
+          if (seg.classList.contains("gs-arc") || seg.classList.contains("gs-bottom-bar")) {
+            setTimeout(() => {
+              seg.classList.add("active");
+              setTimeout(() => seg.classList.remove("active"), 100);
+            }, 250);
+          }
+        }, delay);
+      });
+      setTimeout(() => segments.forEach((seg) => seg.classList.add("idle")), 1200);
+    };
+    runGlyphSequence();
+  }, []);
+
   return (
       <motion.section className="widget about-widget" id="about"
       initial={{ opacity: 0, y: 40 }}

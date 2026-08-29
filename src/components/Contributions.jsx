@@ -1,7 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import useGithubStats from '../hooks/useGithubStats';
 
 export default function Contributions() {
+  const { total, bestDay, streak, longestStreak, streakActive, longestStreakActive } = useGithubStats('ankitshrr');
+
   return (
       <motion.section 
       className="widget pac-contribution-widget" 
@@ -31,7 +34,7 @@ export default function Contributions() {
         <div className="pac-hero-stat">
           <div className="pac-hero-inner">
             <span className="pac-hero-label">Total Contributions</span>
-            <span className="pac-hero-value" id="pacTotalContrib">—</span>
+            <span className="pac-hero-value">{total}</span>
           </div>
           {/* Secondary stats */}
           <div className="pac-secondary-stats">
@@ -41,23 +44,23 @@ export default function Contributions() {
                 <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
               </svg>
               <span className="pac-sec-label">Best Day</span>
-              <span className="pac-sec-value" id="pacBestDay">—</span>
+              <span className="pac-sec-value">{bestDay}</span>
             </div>
             <div className="pac-sec-divider"></div>
-            <div className="pac-sec-chip" id="pacStreakChip">
+            <div className={`pac-sec-chip ${streakActive ? 'streak-active' : ''}`}>
               <span className="pac-streak-icon">🔥</span>
               <span className="pac-sec-label">Current Streak</span>
-              <span className="pac-sec-value" id="pacStreak">—</span>
+              <span className="pac-sec-value">{streak}</span>
             </div>
             <div className="pac-sec-divider"></div>
-            <div className="pac-sec-chip" id="pacLongestStreakChip">
+            <div className={`pac-sec-chip ${longestStreakActive ? 'streak-active' : ''}`}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
                 strokeLinecap="round" strokeLinejoin="round">
                 <path
                   d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
               </svg>
               <span className="pac-sec-label">Longest Streak</span>
-              <span className="pac-sec-value" id="pacLongestStreak">—</span>
+              <span className="pac-sec-value">{longestStreak}</span>
             </div>
           </div>
         </div>

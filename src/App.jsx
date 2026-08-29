@@ -10,12 +10,15 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import SkillSheet from './components/SkillSheet';
+import useScrollSpy from './hooks/useScrollSpy';
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+  const sectionIds = ['home', 'about', 'experience', 'skills', 'contributions', 'work', 'contact'];
+  const { activeSection, scrollProgress } = useScrollSpy(sectionIds);
 
   useEffect(() => {
-    document.body.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
@@ -44,6 +47,11 @@ function App() {
   };
 
   useEffect(() => {
+    // Add page-loaded class to body to trigger initial animations (e.g. Navbar fade-in)
+    setTimeout(() => {
+      document.body.classList.add('page-loaded');
+    }, 100);
+
     // Reset scroll to top on page reload
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
@@ -82,20 +90,7 @@ function App() {
       backToTop.addEventListener('click', handleBackToTop);
     }
 
-    const script = document.createElement('script');
-    script.src = '/assets/js/script.js';
-    script.async = true;
-    script.onload = () => {
-      window.document.dispatchEvent(new Event('DOMContentLoaded', {
-        bubbles: true,
-        cancelable: true
-      }));
-      window.dispatchEvent(new Event('load'));
-    };
-    document.body.appendChild(script);
-    
     return () => {
-      document.body.removeChild(script);
       anchorLinks.forEach(link => {
         link.removeEventListener('click', handleAnchorClick);
       });
@@ -110,9 +105,9 @@ function App() {
     <>
 
 
-      <div id="scrollProgress"></div>
+      <div id="scrollProgress" style={{ width: `${scrollProgress}%` }}></div>
       
-      <Navbar toggleTheme={toggleTheme} theme={theme} />
+      <Navbar toggleTheme={toggleTheme} theme={theme} activeSection={activeSection} />
 
       <main className="container">
         <div className="grid-interface">
@@ -127,7 +122,6 @@ function App() {
         </div>
       </main>
 
-      <SkillSheet />
       <div id="bugToast" className="bug-toast"></div>
     </>
   );

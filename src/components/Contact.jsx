@@ -1,8 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Clock, MapPin, Send } from 'lucide-react';
 
 export default function Contact() {
+  const [toastMsg, setToastMsg] = useState('');
+  const [toastVisible, setToastVisible] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const name = e.target['cf-name'].value.trim();
+    const email = e.target['cf-email'].value.trim();
+    const subject = e.target['cf-subject'].value.trim() || 'Hello Ankit';
+    const message = e.target['cf-message'].value.trim();
+    
+    const mailto = `mailto:ankitprogressx@gmail.com?subject=${encodeURIComponent(`Portfolio inquiry: ${subject}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    setToastMsg('Opening your email app...');
+    setToastVisible(true);
+    
+    if (isMobile) {
+      window.location.href = mailto;
+    } else {
+      window.open(mailto, '_blank', 'noopener,noreferrer');
+    }
+    
+    e.target.reset();
+    
+    setTimeout(() => {
+      setToastMsg('Thanks for reaching out.');
+      setTimeout(() => setToastVisible(false), 1800);
+    }, 1000);
+  };
+
+  const handleTextareaInput = (e) => {
+    e.target.style.height = 'auto';
+    e.target.style.height = e.target.scrollHeight + 'px';
+  };
+
   return (
       <motion.section className="widget contact-widget" id="contact"
       initial={{ opacity: 0, y: 40 }}
@@ -52,7 +87,7 @@ export default function Contact() {
           <div className="cf-form-header">
             <span className="label" style={{marginBottom: '0'}}>Send a message</span>
           </div>
-          <form className="contact-form" id="contactForm" onSubmit={(e) => window.handleContactForm(e)}>
+          <form className="contact-form" id="contactForm" onSubmit={handleSubmit}>
             <div className="cf-row">
               <div className="cf-group">
                 <label className="cf-label" htmlFor="cf-name">Your Name</label>
@@ -69,13 +104,13 @@ export default function Contact() {
             </div>
             <div className="cf-group">
               <label className="cf-label" htmlFor="cf-message">Message</label>
-              <textarea className="cf-input cf-textarea" id="cf-message" placeholder="Hi Ankit, I wanted to reach out about..." rows="4" required></textarea>
+              <textarea className="cf-input cf-textarea" id="cf-message" placeholder="Hi Ankit, I wanted to reach out about..." rows="4" required onInput={handleTextareaInput}></textarea>
             </div>
             <button type="submit" className="cf-submit btn-system" id="cfSubmitBtn">
               Send Message
               <Send size={16} strokeWidth={2.5} />
             </button>
-            <div id="cfToast" className="cf-toast"></div>
+            <div id="cfToast" className="cf-toast" style={{ opacity: toastVisible ? 1 : 0 }}>{toastMsg}</div>
           </form>
         </div>
       </motion.section>
