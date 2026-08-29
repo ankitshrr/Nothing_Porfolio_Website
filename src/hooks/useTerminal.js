@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 const terminalCommands = [
   {
@@ -61,12 +61,18 @@ export default function useTerminal() {
   const [command, setCommand] = useState("");
   const [prompt, setPrompt] = useState("$");
   const [output, setOutput] = useState([]);
-  const [isRunning, setIsRunning] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
+  const isRunningRef = useRef(false);
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => { isMountedRef.current = false; };
+  }, []);
 
   const runAnimation = useCallback(() => {
-    if (isRunning) return;
-    setIsRunning(true);
+    if (isRunningRef.current) return;
+    isRunningRef.current = true;
     setCommand("");
     setOutput([]);
     setShowCursor(true);
@@ -76,14 +82,18 @@ export default function useTerminal() {
     setPrompt(selected.prompt);
 
     let charIndex = 0;
+    let currentCmd = "";
     
     const typeChar = () => {
+      if (!isMountedRef.current) return;
       if (charIndex < selected.cmd.length) {
-        setCommand(prev => prev + selected.cmd.charAt(charIndex));
+        currentCmd += selected.cmd.charAt(charIndex);
+        setCommand(currentCmd);
         charIndex++;
         setTimeout(typeChar, 30 + Math.random() * 50);
       } else {
         setTimeout(() => {
+          if (!isMountedRef.current) return;
           setShowCursor(false);
           executeLines(selected.output);
         }, 300);
@@ -94,6 +104,7 @@ export default function useTerminal() {
       let lineIndex = 0;
       
       const showNextLine = () => {
+        if (!isMountedRef.current) return;
         if (lineIndex < lines.length) {
           const lineData = lines[lineIndex];
           setOutput(prev => [...prev, lineData.text]);
@@ -102,7 +113,7 @@ export default function useTerminal() {
           let waitTime = lineData.delay !== undefined ? lineData.delay : (50 + Math.random() * 100);
           setTimeout(showNextLine, waitTime);
         } else {
-          setIsRunning(false);
+          isRunningRef.current = false;
         }
       };
       
@@ -110,12 +121,13 @@ export default function useTerminal() {
     };
 
     setTimeout(typeChar, 400);
-  }, [isRunning]);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(runAnimation, 500);
     return () => clearTimeout(timer);
-  }, [runAnimation]); // run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // run once on mount
 
   return { prompt, command, output, showCursor, runAnimation };
 }

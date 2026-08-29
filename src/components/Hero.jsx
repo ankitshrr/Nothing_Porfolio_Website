@@ -71,15 +71,15 @@ export default function Hero({ containerVariants, itemVariants }) {
               <div className="term-title">ankit@qa-automation:~</div>
             </div>
             <div className="terminal-body" ref={termBodyRef}>
-              <div>
-                {output.map((line, idx) => (
-                  <div key={idx} className="term-line" dangerouslySetInnerHTML={{ __html: line }} />
-                ))}
-              </div>
               <div className="term-line">
                 <span className="term-prompt">{prompt}</span> 
                 <span className="term-command-text">{command}</span>
                 {showCursor && <span className="term-cursor"></span>}
+              </div>
+              <div>
+                {output.map((line, idx) => (
+                  <div key={idx} className="term-line" dangerouslySetInnerHTML={{ __html: line }} />
+                ))}
               </div>
             </div>
           </div>
