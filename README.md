@@ -1,7 +1,35 @@
 # Portfolio Website
 
-A minimalist personal portfolio website featuring a clean UI, monochrome palette, subtle grid, and interactive tech-inspired elements.
-This project is built to showcase my learning journey in **Web Fundamentals**, **Prompt Engineering**, and human-AI collaborative coding.
+A premium, minimalist personal portfolio website built with React and Vite. It features a clean UI inspired by modern hardware design languages, utilizing a monochrome palette, a subtle grid system, and high-performance interactive elements. 
+
+This project showcases my journey in **QA Engineering**, **Test Automation**, and modern web development through human-AI collaborative coding.
+
+---
+
+## 🚀 Built With
+
+- **React** (Component-based architecture)
+- **Vite** (Next-generation frontend tooling)
+- **Framer Motion** (Production-ready fluid animations)
+- **Lenis** (Smooth scrolling experience)
+- **Lucide React** (Beautiful and consistent iconography)
+- **Vanilla CSS** (Custom CSS variables, glassmorphism, responsive grid layouts)
+
+---
+
+## ✨ Key Features
+
+- **Dark / Light Theme Toggle**: Persistent theme switching using `data-theme` and `localStorage`.
+- **Bento Grid Architecture**: A modern, asymmetrical project showcase with category filtering (Web, QA, Automation, etc.).
+- **Smooth Navigation**: Edge-to-edge scrolling with Lenis and a premium glassmorphic navigation bar.
+- **GitHub Activity Integration**:
+  - Auto-updating Pac-Man contribution graph via GitHub Actions.
+  - Adaptive light/dark SVG rendering for seamless integration.
+- **Interactive UI Elements**:
+  - Interactive Terminal easter egg.
+  - Interactive Radar Chart for skills visualization with bottom sheet on mobile.
+  - Hidden "Bug Hunt" clickable bugs across the UI.
+- **Git-Style Timeline**: A version-control-inspired experience timeline highlighting career progression.
 
 ---
 
@@ -9,62 +37,57 @@ This project is built to showcase my learning journey in **Web Fundamentals**, *
 
 ```
 portfolio/
+├─ public/
+│  └─ assets/
+│     ├─ css/
+│     │  └─ style.css
+│     ├─ js/
+│     │  └─ script.js (Legacy listeners & easter eggs)
+│     └─ img/
+├─ src/
+│  ├─ components/
+│  │  ├─ About.jsx
+│  │  ├─ Contact.jsx
+│  │  ├─ Contributions.jsx
+│  │  ├─ Experience.jsx
+│  │  ├─ Footer.jsx
+│  │  ├─ Hero.jsx
+│  │  ├─ Navbar.jsx
+│  │  ├─ Projects.jsx
+│  │  ├─ Skills.jsx
+│  │  └─ SkillSheet.jsx
+│  ├─ App.jsx
+│  └─ main.jsx
 ├─ index.html
-├─ assets/
-│  ├─ css/
-│  │  └─ style.css
-│  ├─ js/
-│  │  └─ script.js
-│  ├─ img/
-│  │  ├─ ankit.jpg
-│  │  └─ project/
-│  │     ├─ portfolio.png
-│  │     └─ pythonproject.png
-│  └─ favicon/
-│     └─ Fav.ico
-├─ LICENSE
+├─ package.json
+├─ vite.config.js
 └─ README.md
 ```
 
 ---
 
-## ✨ Features
+## ⚙️ How to Run Locally
 
-- **Dark / Light theme toggle** (CSS variables + `data-theme`)
-- **Glass + dotted background** UI
-- **Animated NAV "glyph" effect**
-- **Hero glyph system** with autoplay + click burst
-- **Responsive mobile navigation** (hamburger / expand)
-- **Page preloader** — animated counter + progress bar on initial load
-- **Scroll reveal animations** — sections fade in as you scroll
-- **GitHub Activity Graph**
-  - Pac-Man contribution graph (auto-updated via GitHub Actions)
-  - Live stats: Total Contributions, Best Day, Current Streak
-  - Fetched from GitHub Contributions API
-- **GitHub Project Tracker**
-  - Fetches profile + latest repos via GitHub REST API
-  - LocalStorage cache (repos + languages)
-  - Language breakdown strips per project card
-- **Contact section**
-  - Smart email button — opens Gmail on PC, native mail app on mobile
-  - Pre-filled subject & body for convenience
-  - Copy email address with toast notification
-  - WhatsApp direct link
-  - GitHub & LinkedIn quick links
-- **Premium Footer**
-  - INDEX & SOCIALS columns with smooth hover arrow animations
-  - Monospace typewriter font for links
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/ankitshrr/nothing-portfolio.git
+   cd nothing-portfolio
+   ```
 
----
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-## 🛠️ Built With
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
 
-- **HTML5**
-- **CSS3** (custom variables, glassmorphism, animations)
-- **JavaScript (Vanilla)**
-- **GitHub REST API**
-- **GitHub Contributions API**
-- **LocalStorage caching**
+4. **Build for production:**
+   ```bash
+   npm run build
+   ```
 
 ---
 
@@ -72,29 +95,10 @@ portfolio/
 
 This project is created to support my learning and growth in:
 
-* **Prompt Engineering & AI Collaboration** — This project was built 50/50: half hand-crafted design thinking and logic, and half AI-assisted coding to accelerate development
-* **Frontend Fundamentals** — focusing on attention to detail, UI consistency, usability, and a testing mindset
+* **Quality Assurance & Testing Mindset** — Focusing on attention to detail, UI consistency, usability, and rigorous testing across viewports.
+* **Prompt Engineering & AI Collaboration** — Actively utilizing AI agentic tools to rapidly migrate from a legacy monolithic JavaScript architecture to a modern React ecosystem.
 
 It also serves as a personal portfolio to demonstrate **clean design thinking and disciplined development practices**.
-
----
-
-## 🚀 How to Use
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/ankitshrr/nothing-portfolio.git
-   ```
-
-2. Open `index.html` in your browser
-   *(or use Live Server in VS Code)*
-
----
-
-## ⚠️ Disclaimer
-
-This is an **independent personal project**.
 
 ---
 
@@ -103,7 +107,6 @@ This is an **independent personal project**.
 This project is licensed under the **MIT License**.
 
 You are free to:
-
 * Use
 * Modify
 * Distribute
@@ -114,6 +117,6 @@ As long as proper credit is given.
 
 ## 👤 Author
 
-**Ankit Shrestha**
-GitHub: [https://github.com/ankitshrr](https://github.com/ankitshrr)
+**Ankit Shrestha**  
+GitHub: [https://github.com/ankitshrr](https://github.com/ankitshrr)  
 LinkedIn: [https://linkedin.com/in/ankitshrr](https://linkedin.com/in/ankitshrr)
