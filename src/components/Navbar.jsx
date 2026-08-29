@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import './Navbar.css';
 
 export default function Navbar({ toggleTheme, theme, activeSection }) {
@@ -72,14 +73,45 @@ export default function Navbar({ toggleTheme, theme, activeSection }) {
         </nav>
       </header>
       {/*  MOBILE SIDE PANEL  */}
-      <div className={`mobile-side-panel ${isExpanded ? 'open' : ''}`} id="mobileSidePanel">
-        <div className="side-panel-links">
-          <a href="#about" onClick={handleNavClick} className={`side-link ${activeSection === 'about' ? 'active' : ''}`}>About</a>
-          <a href="#skills" onClick={handleNavClick} className={`side-link ${activeSection === 'skills' ? 'active' : ''}`}>Skills</a>
-          <a href="#work" onClick={handleNavClick} className={`side-link ${activeSection === 'work' ? 'active' : ''}`}>My Work</a>
-          <a href="#contact" onClick={handleNavClick} className={`side-link ${activeSection === 'contact' ? 'active' : ''}`}>Contact</a>
-        </div>
-      </div>
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div 
+            className="mobile-side-panel" 
+            id="mobileSidePanel"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+          >
+            <div className="side-panel-links">
+              {[
+                { href: "#about", label: "About", id: "about" },
+                { href: "#skills", label: "Skills", id: "skills" },
+                { href: "#work", label: "My Work", id: "work" },
+                { href: "#contact", label: "Contact", id: "contact" }
+              ].map((link, idx) => (
+                <motion.a
+                  key={link.id}
+                  href={link.href}
+                  onClick={handleNavClick}
+                  className={`side-link ${activeSection === link.id ? 'active' : ''}`}
+                  initial={{ opacity: 0, x: 150 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 100 }}
+                  transition={{ 
+                    type: 'spring', 
+                    stiffness: 260, 
+                    damping: 20, 
+                    delay: 0.15 + (idx * 0.08) 
+                  }}
+                >
+                  {link.label}
+                </motion.a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
