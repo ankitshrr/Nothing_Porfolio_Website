@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Download, Mail } from 'lucide-react';
+import useTerminal from '../hooks/useTerminal';
 
 export default function Hero({ containerVariants, itemVariants }) {
+  const { prompt, command, output, showCursor, runAnimation } = useTerminal();
+  const termBodyRef = useRef(null);
+
+  // Auto-scroll terminal when output changes
+  useEffect(() => {
+    if (termBodyRef.current) {
+      termBodyRef.current.scrollTop = termBodyRef.current.scrollHeight;
+    }
+  }, [output, command]);
+
   return (
       <section className="widget hero-widget" id="home">
         <div className="hero-grid">
@@ -50,7 +61,7 @@ export default function Hero({ containerVariants, itemVariants }) {
           </motion.div>
 
           {/*  AUTOMATION TERMINAL  */}
-          <div className="hero-terminal" aria-hidden="true">
+          <div className="hero-terminal" aria-hidden="true" onClick={runAnimation} style={{cursor: 'pointer'}}>
             <div className="terminal-header">
               <div className="term-dots">
                 <span className="term-dot close"></span>
@@ -59,9 +70,17 @@ export default function Hero({ containerVariants, itemVariants }) {
               </div>
               <div className="term-title">ankit@qa-automation:~</div>
             </div>
-            <div className="terminal-body" id="termBody">
-              <div className="term-line"><span className="term-prompt" id="termPrompt">$</span> <span id="termCommand" className="term-command-text"></span><span className="term-cursor" id="typeCursor"></span></div>
-              <div id="termOutput"></div>
+            <div className="terminal-body" ref={termBodyRef}>
+              <div>
+                {output.map((line, idx) => (
+                  <div key={idx} className="term-line" dangerouslySetInnerHTML={{ __html: line }} />
+                ))}
+              </div>
+              <div className="term-line">
+                <span className="term-prompt">{prompt}</span> 
+                <span className="term-command-text">{command}</span>
+                {showCursor && <span className="term-cursor"></span>}
+              </div>
             </div>
           </div>
         </div>
