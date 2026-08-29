@@ -44,6 +44,12 @@ function App() {
   };
 
   useEffect(() => {
+    // Reset scroll to top on page reload
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
     // Initialize Lenis
     const lenis = new Lenis({
       autoRaf: true,
