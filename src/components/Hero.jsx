@@ -16,13 +16,13 @@ export default function Hero({ containerVariants, itemVariants }) {
 
   return (
       <section className="widget hero-widget" id="home">
-        <div className="hero-grid">
-          <motion.div 
-            className="hero-content"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
+        <motion.div 
+          className="hero-grid"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <div className="hero-content">
             <motion.span variants={itemVariants} className="hero-greeting">Hi, I'm</motion.span>
             <motion.h1 variants={itemVariants} className="hero-title">
               <span className="dot-matrix">Ankit</span>
@@ -58,10 +58,10 @@ export default function Hero({ containerVariants, itemVariants }) {
                 </a>
               </div>
             </motion.div>
-          </motion.div>
+          </div>
 
           {/*  AUTOMATION TERMINAL  */}
-          <div className="hero-terminal" aria-hidden="true" onClick={runAnimation} style={{cursor: 'pointer'}}>
+          <motion.div variants={itemVariants} className="hero-terminal" aria-hidden="true" onClick={runAnimation} style={{cursor: 'pointer'}}>
             <div className="terminal-header">
               <div className="term-dots">
                 <span className="term-dot close"></span>
@@ -82,8 +82,8 @@ export default function Hero({ containerVariants, itemVariants }) {
                 ))}
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
   );
 }

@@ -46,7 +46,7 @@ export default function About() {
             <div className="about-links" style={{marginTop: '12px'}}>
               <a className="btn-system btn-mini" href="#contact">
                 Let's Connect
-                <ArrowRight size={16} strokeWidth={2} />
+                <ArrowRight size={14} strokeWidth={2} />
               </a>
             </div>
 

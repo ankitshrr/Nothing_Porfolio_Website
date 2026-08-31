@@ -1441,21 +1441,18 @@ section.widget {
 
 .bento-img {
   width: 100%;
-  height: 200px;
   position: relative;
   overflow: hidden;
   border-bottom: 1px solid var(--glass-border);
   background: var(--surface-low);
+  display: flex;
 }
 
 .bento-img img {
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
+  height: auto;
+  object-fit: contain;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   filter: brightness(0.85) grayscale(20%);
 }
@@ -1533,9 +1530,14 @@ section.widget {
   #featuredProjects .bento-card:nth-child(1) .bento-img {
     flex: 1 1 50%;
     max-width: 50%;
-    height: auto;
+    aspect-ratio: auto;
     border-bottom: none;
     border-left: 1px solid var(--glass-border);
+  }
+
+  #featuredProjects .bento-card:nth-child(1) .bento-img img {
+    height: 100%;
+    object-fit: cover;
   }
 
   #featuredProjects .bento-card:nth-child(1) .bento-content {
@@ -2382,32 +2384,40 @@ section.widget {
 /* BUTTONS */
 .btn-system {
   background: var(--text-main);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   color: var(--bg);
-  border: 1px solid var(--text-main);
-  padding: 14px 20px;
+  border: 1px solid transparent;
+  padding: 12px 24px;
   border-radius: 999px;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 13px;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 8px;
   text-decoration: none;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   white-space: nowrap;
-  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
 }
 
 .btn-system:hover {
-  background: var(--accent-color);
-  border-color: var(--accent-color);
-  color: #ffffff;
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 20px -5px rgba(0, 122, 255, 0.3);
+  background: transparent;
+  color: var(--text-main);
+  border-color: var(--text-main);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.btn-system svg {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 1px;
+}
+
+.btn-system:hover svg {
+  transform: translateX(4px);
 }
 
 .btn-ghost {
